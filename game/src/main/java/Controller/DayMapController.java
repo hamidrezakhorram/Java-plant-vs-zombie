@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Plant;
+import Model.plants.Plant;
 import Model.Zombie;
 import javafx.animation.*;
 import javafx.application.Platform;

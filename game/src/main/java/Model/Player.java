@@ -1,5 +1,7 @@
 package Model;
 
+import Model.plants.Plant;
+
 import java.util.ArrayList;
 
 public class Player {

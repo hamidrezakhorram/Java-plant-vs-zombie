@@ -8,4 +8,6 @@ module org.example.game1 {
     exports View;
     exports Controller;
     exports Model;
+    exports Model.plants;
+    opens Model.plants to javafx.fxml;
 }
