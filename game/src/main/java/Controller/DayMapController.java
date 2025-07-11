@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.plants.Plant;
-import Model.Zombie;
+import Model.zmobies.Zombie;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
