@@ -1,0 +1,19 @@
+package view;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+public class DayMap  extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/daymap_1.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 650, 500);
+        stage.setTitle("DAY MAP");
+        stage.setScene(scene);
+        stage.show();
+    }
+}
