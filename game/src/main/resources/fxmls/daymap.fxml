@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainAncharPain" prefHeight="494.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.DayMapController">
+<AnchorPane fx:id="mainAncharPain" prefHeight="494.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DayMapController">
    <children>
       <ImageView fx:id="mapImage" fitHeight="412.0" fitWidth="612.0">
          <image>

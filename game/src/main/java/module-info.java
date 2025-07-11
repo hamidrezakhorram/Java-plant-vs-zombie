@@ -2,9 +2,10 @@ module org.example.game1 {
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens view to javafx.fxml;
-    opens assesst to javafx.fxml;
-
-    exports view;
-    exports assesst;
+    opens View to javafx.fxml;
+    opens Controller to javafx.fxml;
+    opens Model to javafx.fxml;
+    exports View;
+    exports Controller;
+    exports Model;
 }

@@ -1,4 +1,4 @@
-package assesst;
+package Model;
 
 public class Zombie {
     private String name;

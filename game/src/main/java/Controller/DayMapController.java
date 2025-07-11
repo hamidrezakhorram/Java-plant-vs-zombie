@@ -1,7 +1,7 @@
-package view;
+package Controller;
 
-import assesst.Plant;
-import assesst.Zombie;
+import Model.Plant;
+import Model.Zombie;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

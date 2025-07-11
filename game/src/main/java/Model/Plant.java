@@ -1,4 +1,4 @@
-package assesst;
+package Model;
 
 public class Plant {
     private String name;
