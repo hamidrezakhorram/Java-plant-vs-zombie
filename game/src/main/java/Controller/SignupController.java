@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Player;
 import View.SignupPage;
 import View.StartPage;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class SignupController {
     private static Stage currentStage;
@@ -35,14 +37,13 @@ public class SignupController {
 
     @FXML
     void SingupAction(MouseEvent event) {
-
     }
     @FXML
     void backAction(MouseEvent event) {
         StartPage startPage = new StartPage();
         try {
             startPage.start(currentStage);
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

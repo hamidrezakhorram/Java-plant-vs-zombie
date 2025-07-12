@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LoginController {
     private static Stage currentStage;
@@ -33,7 +34,7 @@ public class LoginController {
         StartPage startPage = new StartPage();
         try {
             startPage.start(currentStage);
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
