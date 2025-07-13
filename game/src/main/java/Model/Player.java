@@ -13,8 +13,15 @@ public class Player {
     private String username;
     private ArrayList<Plant> availablePlants;
     private String currentLevel;
+    private String score;
 
+    public String getScore() {
+        return score;
+    }
 
+    public void setScore(String score) {
+        score = score;
+    }
 
     public int getId() {
         return id;

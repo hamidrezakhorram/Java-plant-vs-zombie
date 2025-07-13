@@ -4,18 +4,20 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Database {
 
     private static Database database;
-    private  String url = "jdbc:mysql://localhost:3306/plants_vs_zombies";
-    private  String username = "root";
-    private  String password = "";
-    private  Connection connection;
+    private String url = "jdbc:mysql://localhost:3306/plants_vs_zombies";
+    private String username = "root";
+    private String password = "";
+    private Connection connection;
 
-    private   Database() throws SQLException {
+    private Database() throws SQLException {
         connection = DriverManager.getConnection(url, username, password);
     }
+
     public static Database getInstance() throws SQLException {
         if (database == null) {
             database = new Database();
@@ -23,26 +25,42 @@ public class Database {
         return database;
     }
 
-    public String add(String name, String birthDate, String contractType, int payment) throws SQLException {
 
-
-        name = String.format("'%s'", name);
-        birthDate = String.format("'%s'", birthDate);
-        contractType = String.format("'%s'", contractType);
-        String sqlCommand = "INSERT INTO players (id, name, birthDate, contractType ,payment) VALUES (" + setId() + "," + name + "," + birthDate + "," + contractType + "," + payment + ")";
-        Statement statement = connection.createStatement();
-        statement.execute(sqlCommand);
-        return "new item added to table";
-    }
-
-    public  String addNewPlayer(Player newPlayer) throws SQLException {
+    public void addNewPlayer(Player newPlayer) throws SQLException {
 
         Statement statement = connection.createStatement();
         String sqlCommand = "INSERT INTO players (id, name , username , password ,email) VALUES" +
-                " (" + setId() + "," + String.format("'%s'", newPlayer.getName()) + "," + String.format("'%s'", newPlayer.getUsername()) +","
-                + String.format("'%s'", newPlayer.getPassword()) +"," + String.format("'%s'", newPlayer.getEmail()) + ")";
+                " (" + setId() + "," + String.format("'%s'", newPlayer.getName()) + "," + String.format("'%s'", newPlayer.getUsername()) + ","
+                + String.format("'%s'", newPlayer.getPassword()) + "," + String.format("'%s'", newPlayer.getEmail()) + ")";
         statement.execute(sqlCommand);
-        return "new skill added for programmer";
+
+    }
+
+    public ArrayList<Player> getPlayerList() throws SQLException {
+        ArrayList<Player> playerList = new ArrayList<>();
+        String sqlCommand = "SELECT username , password , score FROM players";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlCommand);
+        int columnCount = resultSet.getMetaData().getColumnCount();
+        while (resultSet.next()) {
+            Player player = new Player();
+            for (int i = 0; i < columnCount; i++) {
+
+                String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+                if (player.getUsername() == null){
+                    player.setUsername(resultSet.getString(columnName));
+                }else if (player.getPassword() == null){
+                    player.setPassword(resultSet.getString(columnName));
+                }else {
+                    player.setScore(resultSet.getString(columnName));
+                }
+
+            }
+            playerList.add(player);
+
+        }
+        return playerList;
+
     }
 
     public String update(int id, String columnName, String newValue) throws SQLException {
@@ -85,47 +103,8 @@ public class Database {
         return "delete from programmers WHERE payment was less than " + payment;
     }
 
-//    public String show(String operation, String extra) throws SQLException {
-//        String value = "";
-//
-//        String sqlCommand = "";
-//        if (operation.equals("all")) {
-//            sqlCommand = "SELECT * FROM programmers";
-//        } else if (operation.equals("fulltime")) {
-//            sqlCommand = "SELECT name , payment FROM programmers WHERE contractType = " + "'fulltime'";
-//        } else if (operation.equals("parttime")) {
-//            sqlCommand = "SELECT name , payment FROM programmers WHERE contractType = " + "'parttime'";
-//        } else if (operation.equals("skills")) {
-//            sqlCommand = "SELECT programmers.name AS programmer_name , skills.name FROM programmers INNER JOIN skills ON skills.programmerid = programmers.id WHERE skills.programmerId = " + extra;
-//
-//        } else if (operation.equals("id")) {
-//            sqlCommand = "SELECT name , birthDate FROM programmers WHERE id = " + Integer.parseInt(extra);
-//        }
-//
-//        Statement statement = connection.createStatement();
-//        ResultSet resultSet = statement.executeQuery(sqlCommand);
-//        StringBuilder result = new StringBuilder(" ");
-//        int columnCount = resultSet.getMetaData().getColumnCount();
-//        while (resultSet.next()) {
-//            for (int i = 0; i < columnCount; i++) {
-//                String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
-//                if (columnName.equals("birthDate") && operation.equals("id")) {
-//                    result.append(calculateAge(resultSet.getString("birthDate")));
-//                } else {
-//                    result.append(resultSet.getString(columnName));
-//                }
-//
-//                result.append(" ");
-//
-//            }
-//            result.append("\n ");
-//        }
-//
-//        return result.toString();
-//    }
 
-
-    private  int setId() throws SQLException {
+    private int setId() throws SQLException {
         Statement statement = connection.createStatement();
         String getLastInsertIdQuery = "SELECT MAX(id) FROM players";
         ResultSet resultSet = statement.executeQuery(getLastInsertIdQuery);
@@ -142,8 +121,6 @@ public class Database {
         int lastInsertedId = resultSet.getInt(1);
         return lastInsertedId + 1;
     }
-
-
 
 
 }

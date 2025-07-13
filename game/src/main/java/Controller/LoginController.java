@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Database;
 import Model.Player;
 import View.DayLevelMenuPage;
 import View.StartPage;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class LoginController {
     private static Player currentPlayer;
@@ -37,8 +39,15 @@ public class LoginController {
     private TextField usernamwField;
 
     @FXML
-    void LoginAction(MouseEvent event) {
-
+    void LoginAction(MouseEvent event) throws SQLException {
+        ArrayList<Player> playerList =Database.getInstance().getPlayerList();
+        for (Player player : playerList) {
+            if (player.getUsername().equals(usernamwField.getText()) && player.getPassword().equals(passwordField.getText())) {
+                currentPlayer = player;
+                openLevelMenu();
+                break;
+            }
+        }
     }
 
     @FXML
@@ -51,7 +60,7 @@ public class LoginController {
         }
     }
 
-    public static void openLevelMenu(){
+    private  void openLevelMenu(){
         DayLevelMenuPage dayLevelMenuPage = new DayLevelMenuPage();
         try {
             dayLevelMenuPage.start(currentStage);
