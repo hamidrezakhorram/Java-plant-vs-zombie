@@ -37,6 +37,11 @@ public class SignupController {
 
     @FXML
     void SingupAction(MouseEvent event) {
+        Player newPlayer = new Player();
+        newPlayer.setEmail(emailField.getText());
+        newPlayer.setName(nameField.getText());
+        newPlayer.setPassword(passwordField.getText());
+        newPlayer.setUsername(usernamwField.getText());
     }
     @FXML
     void backAction(MouseEvent event) {

@@ -5,7 +5,7 @@ import Model.plants.Plant;
 import java.util.ArrayList;
 
 public class Player {
-    private static int idCounter;
+
     private int id;
     private String name;
     private String email;
@@ -14,13 +14,7 @@ public class Player {
     private ArrayList<Plant> availablePlants;
     private String currentLevel;
 
-    public static int getIdCounter() {
-        return idCounter;
-    }
 
-    public static void setIdCounter(int idCounter) {
-        Player.idCounter = idCounter;
-    }
 
     public int getId() {
         return id;

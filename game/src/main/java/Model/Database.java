@@ -18,20 +18,7 @@ public class Database {
     }
 
     public String add(String name, String birthDate, String contractType, int payment) throws SQLException {
-        String dateFormat = "yyyy-MM-dd";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
 
-//        try {
-//            LocalDate date = LocalDate.parse(birthDate, formatter);
-//        } catch (Exception e) {
-//            throw new ();
-//        }
-//        if (calculateAge(birthDate) < 18) {
-//            throw new ();
-//        }
-//        if (payment <= 0) {
-//            throw new ();
-//        }
 
         name = String.format("'%s'", name);
         birthDate = String.format("'%s'", birthDate);
@@ -42,14 +29,13 @@ public class Database {
         return "new item added to table";
     }
 
-    public String addSkill(int programmerId, String skillName) throws SQLException {
-        skillName = String.format("'%s'", skillName);
-        Statement statement = connection.createStatement();
-        String sqlCommand = "INSERT INTO skills (id, name , programmerId) VALUES (" + setSkillId() + "," + skillName + "," + programmerId + ")";
-        statement.execute(sqlCommand);
-
-        return "new skill added for programmer";
-    }
+//    public String addNewPlayer(Player newPlayer) throws SQLException {
+//       // skillName = String.format("'%s'", skillName);
+//        Statement statement = connection.createStatement();
+//        String sqlCommand = "INSERT INTO players (id, name , username , password ,) VALUES (" + setSkillId() + "," + skillName + "," + programmerId + ")";
+//        statement.execute(sqlCommand);
+//        return "new skill added for programmer";
+//    }
 
     public String update(int id, String columnName, String newValue) throws SQLException {
         String sqlCommand;
@@ -91,49 +77,49 @@ public class Database {
         return "delete from programmers WHERE payment was less than " + payment;
     }
 
-    public String show(String operation, String extra) throws SQLException {
-        String value = "";
-
-        String sqlCommand = "";
-        if (operation.equals("all")) {
-            sqlCommand = "SELECT * FROM programmers";
-        } else if (operation.equals("fulltime")) {
-            sqlCommand = "SELECT name , payment FROM programmers WHERE contractType = " + "'fulltime'";
-        } else if (operation.equals("parttime")) {
-            sqlCommand = "SELECT name , payment FROM programmers WHERE contractType = " + "'parttime'";
-        } else if (operation.equals("skills")) {
-            sqlCommand = "SELECT programmers.name AS programmer_name , skills.name FROM programmers INNER JOIN skills ON skills.programmerid = programmers.id WHERE skills.programmerId = " + extra;
-
-        } else if (operation.equals("id")) {
-            sqlCommand = "SELECT name , birthDate FROM programmers WHERE id = " + Integer.parseInt(extra);
-        }
-
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sqlCommand);
-        StringBuilder result = new StringBuilder(" ");
-        int columnCount = resultSet.getMetaData().getColumnCount();
-        while (resultSet.next()) {
-            for (int i = 0; i < columnCount; i++) {
-                String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
-                if (columnName.equals("birthDate") && operation.equals("id")) {
-                    result.append(calculateAge(resultSet.getString("birthDate")));
-                } else {
-                    result.append(resultSet.getString(columnName));
-                }
-
-                result.append(" ");
-
-            }
-            result.append("\n ");
-        }
-
-        return result.toString();
-    }
+//    public String show(String operation, String extra) throws SQLException {
+//        String value = "";
+//
+//        String sqlCommand = "";
+//        if (operation.equals("all")) {
+//            sqlCommand = "SELECT * FROM programmers";
+//        } else if (operation.equals("fulltime")) {
+//            sqlCommand = "SELECT name , payment FROM programmers WHERE contractType = " + "'fulltime'";
+//        } else if (operation.equals("parttime")) {
+//            sqlCommand = "SELECT name , payment FROM programmers WHERE contractType = " + "'parttime'";
+//        } else if (operation.equals("skills")) {
+//            sqlCommand = "SELECT programmers.name AS programmer_name , skills.name FROM programmers INNER JOIN skills ON skills.programmerid = programmers.id WHERE skills.programmerId = " + extra;
+//
+//        } else if (operation.equals("id")) {
+//            sqlCommand = "SELECT name , birthDate FROM programmers WHERE id = " + Integer.parseInt(extra);
+//        }
+//
+//        Statement statement = connection.createStatement();
+//        ResultSet resultSet = statement.executeQuery(sqlCommand);
+//        StringBuilder result = new StringBuilder(" ");
+//        int columnCount = resultSet.getMetaData().getColumnCount();
+//        while (resultSet.next()) {
+//            for (int i = 0; i < columnCount; i++) {
+//                String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+//                if (columnName.equals("birthDate") && operation.equals("id")) {
+//                    result.append(calculateAge(resultSet.getString("birthDate")));
+//                } else {
+//                    result.append(resultSet.getString(columnName));
+//                }
+//
+//                result.append(" ");
+//
+//            }
+//            result.append("\n ");
+//        }
+//
+//        return result.toString();
+//    }
 
 
     private int setId() throws SQLException {
         Statement statement = connection.createStatement();
-        String getLastInsertIdQuery = "SELECT MAX(id) FROM programmers";
+        String getLastInsertIdQuery = "SELECT MAX(id) FROM players";
         ResultSet resultSet = statement.executeQuery(getLastInsertIdQuery);
         resultSet.next();
         int lastInsertedId = resultSet.getInt(1);
@@ -149,13 +135,7 @@ public class Database {
         return lastInsertedId + 1;
     }
 
-    private int calculateAge(String birthString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate birth = LocalDate.parse(birthString, formatter);
-        LocalDate today = LocalDate.now();
-        Period age = Period.between(birth, today);
-        return age.getYears();
-    }
+
 
 
 }
