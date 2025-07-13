@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class StartPage extends Application {
+
+
     public void start(Stage stage) throws IOException, SQLException {
-        Database database = new Database();
+      Database database = Database.getInstance();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/start.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 650, 500);
         stage.setTitle("Star");

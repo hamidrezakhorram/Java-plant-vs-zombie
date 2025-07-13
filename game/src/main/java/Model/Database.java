@@ -7,14 +7,20 @@ import java.time.format.DateTimeFormatter;
 
 public class Database {
 
+    private static Database database;
+    private  String url = "jdbc:mysql://localhost:3306/plants_vs_zombies";
+    private  String username = "root";
+    private  String password = "";
+    private  Connection connection;
 
-    private String url = "jdbc:mysql://localhost:3306/plants_vs_zombies";
-    private String username = "root";
-    private String password = "";
-    private Connection connection;
-
-    public Database() throws SQLException {
+    private   Database() throws SQLException {
         connection = DriverManager.getConnection(url, username, password);
+    }
+    public static Database getInstance() throws SQLException {
+        if (database == null) {
+            database = new Database();
+        }
+        return database;
     }
 
     public String add(String name, String birthDate, String contractType, int payment) throws SQLException {
@@ -23,19 +29,21 @@ public class Database {
         name = String.format("'%s'", name);
         birthDate = String.format("'%s'", birthDate);
         contractType = String.format("'%s'", contractType);
-        String sqlCommand = "INSERT INTO programmers (id, name, birthDate, contractType ,payment) VALUES (" + setId() + "," + name + "," + birthDate + "," + contractType + "," + payment + ")";
+        String sqlCommand = "INSERT INTO players (id, name, birthDate, contractType ,payment) VALUES (" + setId() + "," + name + "," + birthDate + "," + contractType + "," + payment + ")";
         Statement statement = connection.createStatement();
         statement.execute(sqlCommand);
         return "new item added to table";
     }
 
-//    public String addNewPlayer(Player newPlayer) throws SQLException {
-//       // skillName = String.format("'%s'", skillName);
-//        Statement statement = connection.createStatement();
-//        String sqlCommand = "INSERT INTO players (id, name , username , password ,) VALUES (" + setSkillId() + "," + skillName + "," + programmerId + ")";
-//        statement.execute(sqlCommand);
-//        return "new skill added for programmer";
-//    }
+    public  String addNewPlayer(Player newPlayer) throws SQLException {
+
+        Statement statement = connection.createStatement();
+        String sqlCommand = "INSERT INTO players (id, name , username , password ,email) VALUES" +
+                " (" + setId() + "," + String.format("'%s'", newPlayer.getName()) + "," + String.format("'%s'", newPlayer.getUsername()) +","
+                + String.format("'%s'", newPlayer.getPassword()) +"," + String.format("'%s'", newPlayer.getEmail()) + ")";
+        statement.execute(sqlCommand);
+        return "new skill added for programmer";
+    }
 
     public String update(int id, String columnName, String newValue) throws SQLException {
         String sqlCommand;
@@ -117,7 +125,7 @@ public class Database {
 //    }
 
 
-    private int setId() throws SQLException {
+    private  int setId() throws SQLException {
         Statement statement = connection.createStatement();
         String getLastInsertIdQuery = "SELECT MAX(id) FROM players";
         ResultSet resultSet = statement.executeQuery(getLastInsertIdQuery);

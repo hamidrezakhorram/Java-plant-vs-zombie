@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Player;
+import View.DayLevelMenuPage;
 import View.StartPage;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -11,6 +13,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginController {
+    private static Player currentPlayer;
+
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public static void setCurrentPlayer(Player currentPlayer) {
+        LoginController.currentPlayer = currentPlayer;
+    }
+
     private static Stage currentStage;
     public static Stage getCurrentStage() {
         return currentStage;
@@ -35,6 +47,15 @@ public class LoginController {
         try {
             startPage.start(currentStage);
         } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void openLevelMenu(){
+        DayLevelMenuPage dayLevelMenuPage = new DayLevelMenuPage();
+        try {
+            dayLevelMenuPage.start(currentStage);
+        } catch (IOException  e) {
             throw new RuntimeException(e);
         }
     }

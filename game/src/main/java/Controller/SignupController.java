@@ -1,6 +1,8 @@
 package Controller;
 
+import Model.Database;
 import Model.Player;
+import View.DayLevelMenuPage;
 import View.SignupPage;
 import View.StartPage;
 import javafx.fxml.FXML;
@@ -36,12 +38,15 @@ public class SignupController {
     private TextField usernamwField;
 
     @FXML
-    void SingupAction(MouseEvent event) {
+    void SingupAction(MouseEvent event) throws SQLException {
         Player newPlayer = new Player();
         newPlayer.setEmail(emailField.getText());
         newPlayer.setName(nameField.getText());
         newPlayer.setPassword(passwordField.getText());
         newPlayer.setUsername(usernamwField.getText());
+        Database.getInstance().addNewPlayer(newPlayer);
+        LoginController.setCurrentPlayer(newPlayer);
+        openLevelMenu();
     }
     @FXML
     void backAction(MouseEvent event) {
@@ -49,6 +54,14 @@ public class SignupController {
         try {
             startPage.start(currentStage);
         } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private  void openLevelMenu(){
+        DayLevelMenuPage dayLevelMenuPage = new DayLevelMenuPage();
+        try {
+            dayLevelMenuPage.start(currentStage);
+        } catch (IOException  e) {
             throw new RuntimeException(e);
         }
     }
