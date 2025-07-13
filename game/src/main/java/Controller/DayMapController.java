@@ -22,6 +22,11 @@ import java.util.ResourceBundle;
 import java.util.Random;
 
 public class DayMapController implements Initializable {
+    ArrayList<Zombie> row1ZombieList = new ArrayList<>() ;
+    ArrayList<Zombie> row2ZombieList = new ArrayList<>() ;
+    ArrayList<Zombie> row3ZombieList = new ArrayList<>() ;
+    ArrayList<Zombie> row4ZombieList = new ArrayList<>() ;
+    ArrayList<Zombie> row5ZombieList = new ArrayList<>() ;
     @FXML
     private ImageView mapImage;
     @FXML
@@ -75,7 +80,7 @@ public class DayMapController implements Initializable {
                     }
                     while (rowIndex == 0 && !zombieRow1.getChildren().isEmpty()) {
                         Platform.runLater(() -> {
-                             greenBulletAction(cell, (ImageView) zombieRow1.getChildren().getFirst());
+                             greenBulletAction(cell,  zombieRow1 , row1ZombieList.getFirst());
                         });
 
 
@@ -88,7 +93,7 @@ public class DayMapController implements Initializable {
                     while (rowIndex == 1 && !zombieRow2.getChildren().isEmpty()) {
 
                         Platform.runLater(() -> {
-                            greenBulletAction(cell, (ImageView) zombieRow2.getChildren().getFirst());
+                            greenBulletAction(cell,  zombieRow2 ,row2ZombieList.getFirst());
                         });
                         try {
                             Thread.sleep(1000);
@@ -98,7 +103,7 @@ public class DayMapController implements Initializable {
                     }
                     while (rowIndex == 2 && !zombieRow3.getChildren().isEmpty()) {
                         Platform.runLater(() -> {
-                            greenBulletAction(cell, (ImageView) zombieRow3.getChildren().getFirst());
+                            greenBulletAction(cell,  zombieRow3,row3ZombieList.getFirst());
                         });
                         try {
                             Thread.sleep(1000);
@@ -108,7 +113,7 @@ public class DayMapController implements Initializable {
                     }
                     while (rowIndex == 3 && !zombieRow4.getChildren().isEmpty()) {
                         Platform.runLater(() -> {
-                            greenBulletAction(cell, (ImageView) zombieRow4.getChildren().getFirst());
+                            greenBulletAction(cell,  zombieRow4,row4ZombieList.getFirst());
                         });
                         try {
                             Thread.sleep(1000);
@@ -118,7 +123,7 @@ public class DayMapController implements Initializable {
                     }
                     while (rowIndex == 4 && !zombieRow5.getChildren().isEmpty()) {
                         Platform.runLater(() -> {
-                            greenBulletAction(cell, (ImageView) zombieRow5.getChildren().getFirst());
+                            greenBulletAction(cell, zombieRow5,row5ZombieList.getFirst());
                         });
                         try {
                             Thread.sleep(1000);
@@ -183,8 +188,8 @@ public class DayMapController implements Initializable {
         return zombie;
     }
 
-    private ImageView greenBulletAction(ImageView plant, ImageView zombieDetected) {
-
+    private ImageView greenBulletAction(ImageView plant, AnchorPane zombieRow , Zombie detectedZombie) {
+        ImageView zombieImageView =(ImageView) zombieRow.getChildren().getFirst();
         ImageView greenbullet = new ImageView(new Image(getClass().getResource("/assesst/greenBullet.png").toExternalForm()));
         greenbullet.setFitHeight(30);
         greenbullet.setFitWidth(30);
@@ -198,11 +203,18 @@ public class DayMapController implements Initializable {
                @Override
             public void handle(long now) {
                    Bounds greenBulletBounds = greenbullet.localToScene(greenbullet.getBoundsInLocal());
-                   Bounds zombieBounds = zombieDetected.localToScene(zombieDetected.getBoundsInLocal());
+                   Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
                    if (greenBulletBounds.intersects(zombieBounds)) {
                        this.stop();
                        timeline.stop();
                        mainAncharPain.getChildren().remove(greenbullet);
+                       System.out.println(detectedZombie.getName() + " " + detectedZombie.getHealth());
+                       if (detectedZombie.getHealth() >0){
+                           detectedZombie.setHealth(detectedZombie.getHealth() -10);
+                       }else {
+                           zombieRow.getChildren().remove(zombieImageView);
+                       }
+
                    }
 
 
@@ -243,6 +255,17 @@ public class DayMapController implements Initializable {
                 zombieImageView.setLayoutX(600);
                 zombieImageView.setLayoutY(0);
                 Zombie zombie = zombieList.get(randomZombie);
+                if (randomPlacer ==0){
+                    row1ZombieList.add(zombie);
+                }else if (randomPlacer ==1){
+                    row2ZombieList.add(zombie);
+                }else if (randomPlacer ==2){
+                    row3ZombieList.add(zombie);
+                }else if (randomPlacer ==3){
+                    row4ZombieList.add(zombie);
+                }else {
+                    row5ZombieList.add(zombie);
+                }
                 zombieImageView.setImage(new Image(getClass().getResource(zombie.getGifUrl()).toExternalForm()));
                 Platform.runLater(() -> {
                     zombieRowList.get(randomPlacer).getChildren().add(zombieImageView);
