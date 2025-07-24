@@ -2,6 +2,8 @@ package Controller;
 
 import Model.plants.Plant;
 import Model.zmobies.Zombie;
+import View.DayLevelMenuPage;
+import View.LosePage;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -14,14 +16,25 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Random;
 
 public class DayMapController implements Initializable {
+
+    private static Stage currentStage;
+    public static Stage getCurrentStage() {
+        return currentStage;
+    }
+    public static void setCurrentStage(Stage stage) {
+        currentStage = stage;
+    }
+
     ArrayList<Zombie> row1ZombieList = new ArrayList<>() ;
     ArrayList<Zombie> row2ZombieList = new ArrayList<>() ;
     ArrayList<Zombie> row3ZombieList = new ArrayList<>() ;
@@ -228,6 +241,7 @@ public class DayMapController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         ArrayList<Zombie> zombieList = new ArrayList<>();
         zombieList.add(simpleZombie());
         zombieList.add(ConeheadZombie());
@@ -277,10 +291,24 @@ public class DayMapController implements Initializable {
                     );
                     timeline.play();
                     timeline.setOnFinished(event -> {
+                        if (zombieRowList.get(randomPlacer).getChildren().contains(zombieImageView)) {
+                           openLosePage();
+                        }
                         zombieRowList.get(randomPlacer).getChildren().remove(zombieImageView);
+
                     });
                 });
             }).start();
         }
     }
+
+    private void openLosePage(){
+        LosePage losePage = new LosePage();
+        try {
+            losePage.start(currentStage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
