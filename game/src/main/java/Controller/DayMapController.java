@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -40,6 +41,10 @@ public class DayMapController implements Initializable {
     ArrayList<Zombie> row3ZombieList = new ArrayList<>() ;
     ArrayList<Zombie> row4ZombieList = new ArrayList<>() ;
     ArrayList<Zombie> row5ZombieList = new ArrayList<>() ;
+
+    private  int sunAmount =500;
+    @FXML
+    private Label sunAmountlabel;
     @FXML
     private ImageView mapImage;
     @FXML
@@ -70,7 +75,7 @@ public class DayMapController implements Initializable {
 
     @FXML
     void setPlant(MouseEvent event) {
-
+       String currentPlantName = currentPlant.getName();
         Node clickedNode = (Node) event.getSource();
         for (Node node : mapGridPane.getChildren()) {
 
@@ -79,10 +84,20 @@ public class DayMapController implements Initializable {
             if (colIndex == null) {
                 colIndex = 0;
             }
+
             if (node.equals(clickedNode)) {
+                if ( sunAmount >= currentPlant.getBuildCost()){
+                    sunAmount = sunAmount - currentPlant.getBuildCost();
+                    sunAmountlabel.setText(Integer.toString(sunAmount));
+                }else {
+                    showNotEnoughSunAlert();
+                    return;
+
+                }
                 ImageView cell = (ImageView) node;
                 if (cell.getImage() != null) {
                     showLimitAlert();
+                    return;
                 }
                 cell.setImage(new Image(getClass().getResource(currentPlant.getGifUrl()).toExternalForm()));
                 new Thread(() -> {
@@ -91,7 +106,7 @@ public class DayMapController implements Initializable {
                     if (rowIndex == null) {
                         rowIndex = 0;
                     }
-                    while (rowIndex == 0 && !zombieRow1.getChildren().isEmpty()) {
+                    while (rowIndex == 0 && !zombieRow1.getChildren().isEmpty() && currentPlantName.equals("plant1")) {
                         Platform.runLater(() -> {
                              greenBulletAction(cell,  zombieRow1 , row1ZombieList.getFirst());
                         });
@@ -103,7 +118,7 @@ public class DayMapController implements Initializable {
                             throw new RuntimeException(e);
                         }
                     }
-                    while (rowIndex == 1 && !zombieRow2.getChildren().isEmpty()) {
+                    while (rowIndex == 1 && !zombieRow2.getChildren().isEmpty() && currentPlantName.equals("plant1")) {
 
                         Platform.runLater(() -> {
                             greenBulletAction(cell,  zombieRow2 ,row2ZombieList.getFirst());
@@ -114,7 +129,7 @@ public class DayMapController implements Initializable {
                             throw new RuntimeException(e);
                         }
                     }
-                    while (rowIndex == 2 && !zombieRow3.getChildren().isEmpty()) {
+                    while (rowIndex == 2 && !zombieRow3.getChildren().isEmpty() && currentPlantName.equals("plant1")) {
                         Platform.runLater(() -> {
                             greenBulletAction(cell,  zombieRow3,row3ZombieList.getFirst());
                         });
@@ -124,7 +139,7 @@ public class DayMapController implements Initializable {
                             throw new RuntimeException(e);
                         }
                     }
-                    while (rowIndex == 3 && !zombieRow4.getChildren().isEmpty()) {
+                    while (rowIndex == 3 && !zombieRow4.getChildren().isEmpty() && currentPlantName.equals("plant1")) {
                         Platform.runLater(() -> {
                             greenBulletAction(cell,  zombieRow4,row4ZombieList.getFirst());
                         });
@@ -134,7 +149,7 @@ public class DayMapController implements Initializable {
                             throw new RuntimeException(e);
                         }
                     }
-                    while (rowIndex == 4 && !zombieRow5.getChildren().isEmpty()) {
+                    while (rowIndex == 4 && !zombieRow5.getChildren().isEmpty() && currentPlantName.equals("plant1")) {
                         Platform.runLater(() -> {
                             greenBulletAction(cell, zombieRow5,row5ZombieList.getFirst());
                         });
@@ -148,6 +163,8 @@ public class DayMapController implements Initializable {
 
                 }).start();
             }
+
+
 
         }
 
@@ -184,6 +201,12 @@ public class DayMapController implements Initializable {
         alert.setHeaderText("You already have a plant in this area");
         alert.showAndWait();
     }
+    private void showNotEnoughSunAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText("You have not enough sun for this plant");
+        alert.showAndWait();
+    }
 
     private Zombie simpleZombie() {
         Zombie zombie = new Zombie();
@@ -207,6 +230,7 @@ public class DayMapController implements Initializable {
         greenbullet.setFitHeight(30);
         greenbullet.setFitWidth(30);
         greenbullet.setX(plant.getLayoutX() + 50);
+
         greenbullet.setY(plant.getLayoutY());
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(3),
@@ -241,7 +265,7 @@ public class DayMapController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        sunAmountlabel.setText(Integer.toString(sunAmount));
         ArrayList<Zombie> zombieList = new ArrayList<>();
         zombieList.add(simpleZombie());
         zombieList.add(ConeheadZombie());
