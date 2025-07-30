@@ -12,6 +12,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -101,7 +102,8 @@ public class DayMapController implements Initializable {
     private StackPane mapStackPain;
     @FXML
     private AnchorPane stackpainAncherpain;
-
+    @FXML
+    private Slider zombieProgressBar;
     @FXML
     void setPlant(MouseEvent event) {
         String currentPlantName = currentPlant.getName();
@@ -447,9 +449,13 @@ public class DayMapController implements Initializable {
         Timeline zombieWaveTimeline = new Timeline();
 
         for (int j = 0; j < 4; j++) {
+            int finalJ = j;
             KeyFrame keyFrame = new KeyFrame(
                     Duration.seconds(11*j),
-                    e -> spwanZombie(zombieNumber, zombieRowList)
+                    e ->{
+                        spwanZombie(zombieNumber, zombieRowList);
+                        zombieProgressBar.setValue(zombieProgressBar.getValue() +20);
+                    }
             );
             zombieWaveTimeline.getKeyFrames().add(keyFrame);
 
