@@ -13,4 +13,6 @@ module org.example.game1 {
     opens Model.plants to javafx.fxml;
     exports Model.zmobies;
     opens Model.zmobies to javafx.fxml;
+    exports View.Levels;
+    opens View.Levels to javafx.fxml;
 }

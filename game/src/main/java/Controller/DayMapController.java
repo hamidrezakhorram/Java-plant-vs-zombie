@@ -26,6 +26,15 @@ import java.net.URL;
 import java.util.*;
 
 public class DayMapController implements Initializable {
+    private static int zombieTotalNumber=1;
+
+    public static int getZombieTotalNumber() {
+        return zombieTotalNumber;
+    }
+
+    public static void setZombieTotalNumber(int zombieTotalNumber) {
+        DayMapController.zombieTotalNumber = zombieTotalNumber;
+    }
 
     private static Stage currentStage;
 
@@ -416,7 +425,7 @@ public class DayMapController implements Initializable {
         zombieRow3.setMouseTransparent(true);
         zombieRow4.setMouseTransparent(true);
         zombieRow5.setMouseTransparent(true);
-        int zombieNumber = 4;
+        int zombieNumber =DayMapController.zombieTotalNumber ;
         new Thread(() -> {
             while (true) {
                 try {

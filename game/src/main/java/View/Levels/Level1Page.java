@@ -1,6 +1,5 @@
-package View;
+package View.Levels;
 
-import Controller.DayLevelMenuController;
 import Controller.DayMapController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +8,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class DayLevelMenuPage extends Application {
+public class Level1Page extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/dayLevelMenu.fxml"));
+        DayMapController.setZombieTotalNumber(10);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/daymap_1.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 650, 500);
-        stage.setTitle("Day Level Menu");
-        DayLevelMenuController.setCurrentStage(stage);
+        stage.setTitle("Level 1");
+        DayMapController.setCurrentStage(stage);
         stage.setScene(scene);
         stage.show();
     }
