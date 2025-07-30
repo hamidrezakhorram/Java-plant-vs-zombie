@@ -272,7 +272,7 @@ public class DayMapController implements Initializable {
         Plant plant1 = new Plant();
         plant1.setName("plant1");
         plant1.setBuildCost(100);
-        plant1.setGifUrl("/assesst/plant1.gif");
+        plant1.setGifUrl("/assesst/Peashooter.gif");
         plant1.setHealth(100);
         currentPlant = plant1;
     }
