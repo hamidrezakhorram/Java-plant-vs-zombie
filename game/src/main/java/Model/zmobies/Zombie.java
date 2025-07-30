@@ -46,4 +46,9 @@ public class Zombie {
     public void setGifUrl(String gifUrl) {
         this.gifUrl = gifUrl;
     }
+
+    @Override
+    public Zombie clone() throws CloneNotSupportedException {
+        return (Zombie) super.clone();
+    }
 }

@@ -27,6 +27,15 @@ import java.util.*;
 
 public class DayMapController implements Initializable {
     private static int zombieTotalNumber=1;
+    private static ArrayList<Zombie> zombieList = new ArrayList<>();
+
+    public static ArrayList<Zombie> getZombieList() {
+        return zombieList;
+    }
+
+    public static void setZombieList(ArrayList<Zombie> zombieList) {
+        DayMapController.zombieList = zombieList;
+    }
 
     public static int getZombieTotalNumber() {
         return zombieTotalNumber;
@@ -57,7 +66,7 @@ public class DayMapController implements Initializable {
     ArrayList<Plant>  row4PlantList = new ArrayList<>();
     ArrayList<Plant>  row5PlantList = new ArrayList<>();
     private Map<Zombie, Timeline> zombieTimelineList = new HashMap<>();
-    private int sunAmount = 200;
+    private int sunAmount = 500;
     @FXML
     private Label sunAmountlabel;
     @FXML
@@ -300,7 +309,7 @@ public class DayMapController implements Initializable {
     private Zombie simpleZombie() {
         Zombie zombie = new Zombie();
         zombie.setName("zombie");
-        zombie.setGifUrl("/assesst/Zombie.gif");
+        zombie.setGifUrl("/assesst/SimpleZombie.gif");
         zombie.setHealth(50);
         return zombie;
     }
@@ -308,7 +317,7 @@ public class DayMapController implements Initializable {
     private Zombie ConeheadZombie() {
         Zombie zombie = new Zombie();
         zombie.setName("zombie");
-        zombie.setGifUrl("/assesst/Conehead_Zombie_3.gif");
+        zombie.setGifUrl("/assesst/ConeheadZombie.gif");
         zombie.setHealth(50);
         return zombie;
     }
@@ -395,8 +404,8 @@ public class DayMapController implements Initializable {
         } else {
 
             Random random = new Random();
-            int randomPositionX = random.nextInt(1, 600);
-            int randomPositionY = random.nextInt(1, 500);
+            int randomPositionX = random.nextInt(1, 400);
+            int randomPositionY = random.nextInt(1, 300);
 
             Platform.runLater(() -> {
                 stackpainAncherpain.getChildren().add(flowerClone);
@@ -411,9 +420,7 @@ public class DayMapController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sunAmountlabel.setText(Integer.toString(sunAmount));
-        ArrayList<Zombie> zombieList = new ArrayList<>();
-        zombieList.add(simpleZombie());
-        zombieList.add(ConeheadZombie());
+        ArrayList<Zombie> zombieList = DayMapController.zombieList;
         ArrayList<AnchorPane> zombieRowList = new ArrayList<>();
         zombieRowList.add(zombieRow1);
         zombieRowList.add(zombieRow2);
@@ -442,7 +449,7 @@ public class DayMapController implements Initializable {
         for (int i = 0; i < zombieNumber; i++) {
             new Thread(() -> {
                 Random random = new Random();
-                int randomZombie = random.nextInt(2);
+                int randomZombie = random.nextInt(3);
                 int randomPlacer = random.nextInt(5);
                 int speedRandom = random.nextInt(10);
                 ImageView zombieImageView = new ImageView();
@@ -450,7 +457,15 @@ public class DayMapController implements Initializable {
                 zombieImageView.setFitHeight(100);
                 zombieImageView.setLayoutX(600);
                 zombieImageView.setLayoutY(0);
-                Zombie zombie = zombieList.get(randomZombie);
+
+               Zombie zombie = zombieList.get(randomZombie);
+
+//                try {
+//                    zombie = zombieList.get(randomZombie).clone();
+//                } catch (CloneNotSupportedException e) {
+//                    throw new RuntimeException(e);
+//                }
+
                 if (randomPlacer == 0) {
                     row1ZombieList.add(zombie);
                 } else if (randomPlacer == 1) {
