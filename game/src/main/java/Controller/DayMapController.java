@@ -117,6 +117,7 @@ public class DayMapController implements Initializable {
     private HBox plantsBar;
     @FXML
     private Slider zombieProgressBar;
+
     @FXML
     void setPlant(MouseEvent event) {
         String currentPlantName = currentPlant.getName();
@@ -156,7 +157,7 @@ public class DayMapController implements Initializable {
                     return;
                 }
                 cell.setImage(new Image(getClass().getResource(currentPlant.getGifUrl()).toExternalForm()));
-                if (currentPlant.getName().equals("SunFlower")) {
+                if (currentPlant.getName().equals("Sunflower")) {
                     new Thread(() -> {
 
                         while (true) {
@@ -180,94 +181,23 @@ public class DayMapController implements Initializable {
                     if (rowIndex == null) {
                         rowIndex = 0;
                     }
+
                     while (rowIndex == 0 && !zombieRow1.getChildren().isEmpty()) {
-                        Platform.runLater(() -> {
-                            zombieEatPlant(cell, zombieRow1, row1ZombieList.getFirst(), currentPlant);
-                            PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                            pause.play();
-                        });
-                        if (currentPlantName.equals("plant1")) {
-                            Platform.runLater(() -> {
-                                greenBulletAction(cell, zombieRow1, row1ZombieList.getFirst());
-                            });
-                        }
-
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                        rowAction(0, zombieRow1, cell ,row1ZombieList );
                     }
-                    while (rowIndex == 1 && !zombieRow2.getChildren().isEmpty()) {
-                        Platform.runLater(() -> {
-                            zombieEatPlant(cell, zombieRow2, row2ZombieList.getFirst(), currentPlant);
-                            PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                            pause.play();
-                        });
-                        if (currentPlantName.equals("plant1")) {
-                            Platform.runLater(() -> {
-                                greenBulletAction(cell, zombieRow2, row2ZombieList.getFirst());
-                            });
-                        }
 
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                    while (rowIndex == 1 && !zombieRow2.getChildren().isEmpty()) {
+                        rowAction(1, zombieRow2, cell ,row2ZombieList );
                     }
 
                     while (rowIndex == 2 && !zombieRow3.getChildren().isEmpty()) {
-                        Platform.runLater(() -> {
-                            zombieEatPlant(cell, zombieRow3, row3ZombieList.getFirst(), currentPlant);
-                            PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                            pause.play();
-                        });
-                        if (currentPlantName.equals("plant1")) {
-                            Platform.runLater(() -> {
-                                greenBulletAction(cell, zombieRow3, row3ZombieList.getFirst());
-                            });
-                        }
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                        rowAction(2, zombieRow3, cell ,row3ZombieList );
                     }
                     while (rowIndex == 3 && !zombieRow4.getChildren().isEmpty()) {
-                        Platform.runLater(() -> {
-                            zombieEatPlant(cell, zombieRow4, row4ZombieList.getFirst(), currentPlant);
-                            PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                            pause.play();
-                        });
-                        if (currentPlantName.equals("plant1")) {
-                            Platform.runLater(() -> {
-                                greenBulletAction(cell, zombieRow4, row4ZombieList.getFirst());
-                            });
-                        }
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                        rowAction(3, zombieRow4, cell ,row4ZombieList );
                     }
-                    while (rowIndex == 4 && !zombieRow5.getChildren().isEmpty() && currentPlantName.equals("plant1")) {
-                        Platform.runLater(() -> {
-                            zombieEatPlant(cell, zombieRow5, row5ZombieList.getFirst(), currentPlant);
-                            PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                            pause.play();
-                        });
-                        Platform.runLater(() -> {
-                            greenBulletAction(cell, zombieRow5, row5ZombieList.getFirst());
-                        });
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                    while (rowIndex == 4 && !zombieRow5.getChildren().isEmpty() ) {
+                        rowAction(4, zombieRow5, cell ,row5ZombieList );
                     }
 
 
@@ -280,25 +210,9 @@ public class DayMapController implements Initializable {
 
     }
 
-    @FXML
-    void choosePlane1(MouseEvent event) {
-        Plant plant1 = new Plant();
-        plant1.setName("plant1");
-        plant1.setBuildCost(100);
-        plant1.setGifUrl("/assesst/Peashooter.gif");
-        plant1.setHealth(100);
-        currentPlant = plant1;
-    }
 
-    @FXML
-    void choosePlant2(MouseEvent event) {
-        Plant SunFlower = new Plant();
-        SunFlower.setName("SunFlower");
-        SunFlower.setGifUrl("/assesst/sunflower.gif");
-        SunFlower.setBuildCost(50);
-        SunFlower.setHealth(30);
-        currentPlant = SunFlower;
-    }
+
+
 
     @FXML
     void test(MouseEvent event) {
@@ -433,7 +347,7 @@ public class DayMapController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        for (Plant plant : plantList){
+        for (Plant plant : plantList) {
             ImageView plantImageView = new ImageView();
             plantImageView.setImage(new Image(getClass().getResource(plant.getGifUrl()).toExternalForm()));
             plantImageView.setOnMouseClicked(mouseEvent -> {
@@ -475,10 +389,10 @@ public class DayMapController implements Initializable {
         for (int j = 0; j < 4; j++) {
             int finalJ = j;
             KeyFrame keyFrame = new KeyFrame(
-                    Duration.seconds(11*j),
-                    e ->{
+                    Duration.seconds(11 * j),
+                    e -> {
                         spwanZombie(zombieNumber, zombieRowList);
-                        zombieProgressBar.setValue(zombieProgressBar.getValue() +20);
+                        zombieProgressBar.setValue(zombieProgressBar.getValue() + 20);
                     }
             );
             zombieWaveTimeline.getKeyFrames().add(keyFrame);
@@ -497,7 +411,7 @@ public class DayMapController implements Initializable {
         }
     }
 
-    private void spwanZombie(int zombieNumber ,ArrayList<AnchorPane> zombieRowList ) {
+    private void spwanZombie(int zombieNumber, ArrayList<AnchorPane> zombieRowList) {
         for (int i = 0; i < zombieNumber; i++) {
             new Thread(() -> {
                 Random random = new Random();
@@ -544,6 +458,48 @@ public class DayMapController implements Initializable {
                     });
                 });
             }).start();
+        }
+
+    }
+
+    private void rowAction(int rowIndex, AnchorPane zombieRowList, ImageView cell , ArrayList<Zombie> zombieList) {
+
+        String currentPlantName = currentPlant.getName();
+        Platform.runLater(() -> {
+            zombieEatPlant(cell, zombieRowList, zombieList.getFirst(), currentPlant);
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.play();
+        });
+        if (currentPlantName.equals("peashooter")) {
+            Platform.runLater(() -> {
+                greenBulletAction(cell, zombieRowList, zombieList.getFirst());
+            });
+        }else if (currentPlantName.equals("repeater")) {
+            Platform.runLater(() -> {
+
+                PauseTransition pause = new PauseTransition(Duration.seconds(.5));
+                pause.setOnFinished(event -> {
+                    greenBulletAction(cell, zombieRowList, zombieList.getFirst());
+                });
+                pause.play();
+            });
+
+            Platform.runLater(() -> {
+                PauseTransition pause = new PauseTransition(Duration.seconds(.5));
+                greenBulletAction(cell, zombieRowList, zombieList.getFirst());
+                pause.setOnFinished(event -> {
+
+                });
+                pause.play();
+
+
+            });
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
     }
