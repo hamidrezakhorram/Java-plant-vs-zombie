@@ -249,9 +249,17 @@ public class DayMapController implements Initializable {
         return zombie;
     }
 
-    private ImageView greenBulletAction(ImageView plant, AnchorPane zombieRow, Zombie detectedZombie) {
+    private ImageView greenBulletAction(ImageView plant, AnchorPane zombieRow, Zombie detectedZombie , String bulletType) {
         ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
-        ImageView greenbullet = new ImageView(new Image(getClass().getResource("/assesst/greenBullet.png").toExternalForm()));
+        ImageView greenbullet = new ImageView();
+        if (bulletType.equals("snowy")){
+            greenbullet.setImage(new Image(getClass().getResource("/assesst/snowyBullet.png").toExternalForm()));
+//             greenbullet = new ImageView(new Image(getClass().getResource("/assesst/snowyBullet.png").toExternalForm()));
+        }else {
+            greenbullet.setImage(new Image(getClass().getResource("/assesst/greenBullet.png").toExternalForm()));
+//             greenbullet = new ImageView(new Image(getClass().getResource("/assesst/greenBullet.png").toExternalForm()));
+        }
+
         greenbullet.setFitHeight(30);
         greenbullet.setFitWidth(30);
         greenbullet.setX(plant.getLayoutX() + 50);
@@ -266,6 +274,7 @@ public class DayMapController implements Initializable {
             public void handle(long now) {
                 Bounds greenBulletBounds = greenbullet.localToScene(greenbullet.getBoundsInLocal());
                 Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
+                Timeline zombieTimeline = zombieTimelineList.get(detectedZombie);
                 if (greenBulletBounds.intersects(zombieBounds)) {
                     this.stop();
                     timeline.stop();
@@ -273,6 +282,10 @@ public class DayMapController implements Initializable {
                     System.out.println(detectedZombie.getName() + " " + detectedZombie.getHealth());
                     if (detectedZombie.getHealth() > 0) {
                         detectedZombie.setHealth(detectedZombie.getHealth() - 10);
+                        if (bulletType.equals("snowy")){
+                            zombieTimeline.setRate(zombieTimeline.getRate() * .5);
+                        }
+
                     } else {
                         zombieRow.getChildren().remove(zombieImageView);
                     }
@@ -472,27 +485,31 @@ public class DayMapController implements Initializable {
         });
         if (currentPlantName.equals("peashooter")) {
             Platform.runLater(() -> {
-                greenBulletAction(cell, zombieRowList, zombieList.getFirst());
+                greenBulletAction(cell, zombieRowList, zombieList.getFirst() , "green");
             });
         }else if (currentPlantName.equals("repeater")) {
             Platform.runLater(() -> {
 
                 PauseTransition pause = new PauseTransition(Duration.seconds(.5));
                 pause.setOnFinished(event -> {
-                    greenBulletAction(cell, zombieRowList, zombieList.getFirst());
+                    greenBulletAction(cell, zombieRowList, zombieList.getFirst(),"green");
                 });
                 pause.play();
             });
 
             Platform.runLater(() -> {
                 PauseTransition pause = new PauseTransition(Duration.seconds(.5));
-                greenBulletAction(cell, zombieRowList, zombieList.getFirst());
+                greenBulletAction(cell, zombieRowList, zombieList.getFirst(),"green");
                 pause.setOnFinished(event -> {
 
                 });
                 pause.play();
 
 
+            });
+        }else if (currentPlantName.equals("snowpea")) {
+            Platform.runLater(() -> {
+                greenBulletAction(cell, zombieRowList, zombieList.getFirst() , "snowy");
             });
         }
 
