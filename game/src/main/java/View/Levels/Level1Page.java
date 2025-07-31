@@ -1,8 +1,11 @@
 package View.Levels;
 
+import Controller.ChoosePlantController;
 import Controller.DayMapController;
 import Controller.InitializeZombies;
 import Model.zmobies.Zombie;
+import View.ChoosePlantPage;
+import View.DayMap;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 public class Level1Page extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+
         DayMapController.setZombieTotalNumber(10);
         ArrayList<Zombie> zombieList = new ArrayList<>();
         zombieList.add(InitializeZombies.simpleZombie());
@@ -27,4 +31,6 @@ public class Level1Page extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+
 }

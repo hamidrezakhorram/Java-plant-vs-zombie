@@ -1,5 +1,6 @@
 package Controller;
 
+import View.ChoosePlantPage;
 import View.Levels.Level1Page;
 import View.LosePage;
 import javafx.fxml.FXML;
@@ -19,12 +20,19 @@ public class DayLevelMenuController {
     }
     @FXML
     void ChooseLevel1(MouseEvent event) {
-            Level1Page level1Page = new Level1Page();
-            try {
-                level1Page.start(currentStage);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        ChoosePlantController.setLevelNumber(1);
+        ChoosePlantPage choosePlantPage = new ChoosePlantPage();
+        try {
+            choosePlantPage.start(currentStage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//            Level1Page level1Page = new Level1Page();
+//            try {
+//                level1Page.start(currentStage);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
     }
 
     @FXML

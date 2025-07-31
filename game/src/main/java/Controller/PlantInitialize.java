@@ -3,7 +3,7 @@ package Controller;
 import Model.plants.*;
 
 public class PlantInitialize {
-    public WarriorPlant peashooter(){
+    public static WarriorPlant peashooter(){
         WarriorPlant plant = new WarriorPlant();
         plant.setGifUrl("/assesst/Peashooter.gif");
         plant.setHealth(100);
@@ -15,7 +15,7 @@ public class PlantInitialize {
         return plant;
     }
 
-    public WarriorPlant snowpea(){
+    public static WarriorPlant snowpea(){
         WarriorPlant plant = new WarriorPlant();
         plant.setGifUrl("/assesst/SnowPea.gif");
         plant.setHealth(100);
@@ -27,7 +27,7 @@ public class PlantInitialize {
         return plant;
     }
 
-    public WarriorPlant repeater(){
+    public static WarriorPlant repeater(){
         WarriorPlant plant = new WarriorPlant();
         plant.setGifUrl("/assesst/Repeater.gif");
         plant.setHealth(100);
@@ -38,7 +38,7 @@ public class PlantInitialize {
         plant.setBulletType(BulletType.NORMAL);
         return plant;
     }
-    public WarriorPlant puffShroom(){
+    public static WarriorPlant puffShroom(){
         WarriorPlant plant = new WarriorPlant();
         plant.setGifUrl("/assesst/PuffShroom.gif");
         plant.setHealth(30);
@@ -50,7 +50,7 @@ public class PlantInitialize {
         return plant;
     }
 
-    public WarriorPlant fumeShroom(){
+    public static WarriorPlant fumeShroom(){
         WarriorPlant plant = new WarriorPlant();
         plant.setGifUrl("/assesst/FumeShroom.gif");
         plant.setHealth(75);
@@ -62,7 +62,7 @@ public class PlantInitialize {
         return plant;
     }
 
-    public WarriorPlant scaredyShroom(){
+    public static WarriorPlant scaredyShroom(){
         WarriorPlant plant = new WarriorPlant();
         plant.setGifUrl("/assesst/ScaredyShroom.gif");
         plant.setHealth(75);
@@ -74,7 +74,7 @@ public class PlantInitialize {
         return plant;
     }
 
-    public ProducerPlant sunflower(){
+    public static ProducerPlant sunflower(){
         ProducerPlant plant = new ProducerPlant();
         plant.setGifUrl("/assesst/Sunflower.gif");
         plant.setHealth(100);
@@ -84,7 +84,7 @@ public class PlantInitialize {
         plant.setProduceTime(5);
         return plant;
     }
-    public ProducerPlant sunShroom(){
+    public static ProducerPlant sunShroom(){
         ProducerPlant plant = new ProducerPlant();
         plant.setGifUrl("/assesst/SunShroom.gif");
         plant.setHealth(75);
@@ -95,7 +95,7 @@ public class PlantInitialize {
         return plant;
     }
 
-    public ExplosivePlant cherryBomb(){
+    public static ExplosivePlant cherryBomb(){
         ExplosivePlant plant = new ExplosivePlant();
         plant.setHealth(100);
         plant.setName("cherrybomb");
@@ -106,7 +106,7 @@ public class PlantInitialize {
         return plant;
     }
 
-    public ExplosivePlant iceShroom(){
+    public static ExplosivePlant iceShroom(){
         ExplosivePlant plant = new ExplosivePlant();
         plant.setHealth(100);
         plant.setName("iceshroom");
@@ -116,7 +116,7 @@ public class PlantInitialize {
         plant.setDestructionArea(1);
         return plant;
     }
-    public ExplosivePlant doomShroom(){
+    public static ExplosivePlant doomShroom(){
         ExplosivePlant plant = new ExplosivePlant();
         plant.setHealth(100);
         plant.setName("doomshroom");
@@ -127,7 +127,7 @@ public class PlantInitialize {
         return plant;
     }
 
-    public Plant wallNut(){
+    public static Plant wallNut(){
         Plant plant = new Plant();
         plant.setGifUrl("/assesst/WallNut.gif");
         plant.setHealth(500);

@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -54,6 +55,16 @@ public class DayMapController implements Initializable {
 
     public static void setCurrentStage(Stage stage) {
         currentStage = stage;
+    }
+
+    private static ArrayList<Plant> plantList = new ArrayList<>();
+
+    public static ArrayList<Plant> getPlantList() {
+        return plantList;
+    }
+
+    public static void setPlantList(ArrayList<Plant> plantList) {
+        DayMapController.plantList = plantList;
     }
 
     ArrayList<Zombie> row1ZombieList = new ArrayList<>();
@@ -102,6 +113,8 @@ public class DayMapController implements Initializable {
     private StackPane mapStackPain;
     @FXML
     private AnchorPane stackpainAncherpain;
+    @FXML
+    private HBox plantsBar;
     @FXML
     private Slider zombieProgressBar;
     @FXML
@@ -419,6 +432,17 @@ public class DayMapController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        for (Plant plant : plantList){
+            ImageView plantImageView = new ImageView();
+            plantImageView.setImage(new Image(getClass().getResource(plant.getGifUrl()).toExternalForm()));
+            plantImageView.setOnMouseClicked(mouseEvent -> {
+                int index = plantsBar.getChildren().indexOf(plantImageView);
+                currentPlant = plantList.get(index);
+            });
+            plantsBar.getChildren().add(plantImageView);
+        }
+
         sunAmountlabel.setText(Integer.toString(sunAmount));
         ArrayList<Zombie> zombieList = DayMapController.zombieList;
         ArrayList<AnchorPane> zombieRowList = new ArrayList<>();
@@ -490,13 +514,6 @@ public class DayMapController implements Initializable {
                 zombieImageView.setCache(true);
 
                 Zombie zombie = zombieList.get(randomZombie);
-
-//                try {
-//                    zombie = zombieList.get(randomZombie).clone();
-//                } catch (CloneNotSupportedException e) {
-//                    throw new RuntimeException(e);
-//                }
-
                 if (randomPlacer == 0) {
                     row1ZombieList.add(zombie);
                 } else if (randomPlacer == 1) {
@@ -519,13 +536,11 @@ public class DayMapController implements Initializable {
                     );
                     zombieTimelineList.put(zombie, timeline);
                     timeline.play();
-
                     timeline.setOnFinished(event -> {
                         if (zombieRowList.get(randomPlacer).getChildren().contains(zombieImageView)) {
                             openLosePage();
                         }
                         zombieRowList.get(randomPlacer).getChildren().remove(zombieImageView);
-
                     });
                 });
             }).start();

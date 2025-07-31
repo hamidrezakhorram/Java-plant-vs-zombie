@@ -125,20 +125,7 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <HBox layoutX="102.0" prefHeight="83.0" prefWidth="502.0">
-                     <children>
-                        <ImageView fx:id="sunflower" fitHeight="83.0" fitWidth="102.0" onMouseClicked="#choosePlant2" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../assesst/sunflower.gif" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="plant1" fitHeight="83.0" fitWidth="102.0" onMouseClicked="#choosePlane1" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../assesst/plant1.gif" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
+                  <HBox fx:id="plantsBar" layoutX="102.0" prefHeight="83.0" prefWidth="502.0" />
                </children>
             </AnchorPane>
          </children>
