@@ -2,8 +2,8 @@ package Controller;
 
 import Model.plants.Plant;
 import Model.zmobies.Zombie;
-import View.DayLevelMenuPage;
 import View.LosePage;
+import View.WinPage;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -27,6 +27,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DayMapController implements Initializable {
     private static int zombieTotalNumber = 1;
@@ -454,35 +455,45 @@ public class DayMapController implements Initializable {
         }).start();
         Timeline zombieWaveTimeline = new Timeline();
 
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < 5; j++) {
             int finalJ = j;
             KeyFrame keyFrame = new KeyFrame(
                     Duration.seconds(11 * j),
                     e -> {
-                        try {
-                            spwanZombie(zombieNumber, zombieRowList);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
+                        if (finalJ !=4){
+                            try {
+                                spwanZombie(zombieNumber, zombieRowList);
+                            } catch (CloneNotSupportedException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
-                        zombieProgressBar.setValue(zombieProgressBar.getValue() + 25);
+                        zombieProgressBar.setValue(zombieProgressBar.getValue() + 20);
                     }
             );
             zombieWaveTimeline.getKeyFrames().add(keyFrame);
+
 
 
         }
         zombieWaveTimeline.play();
 
         new Thread(() -> {
-            while (true) {
-                if (zombieRow1.getChildren().isEmpty() && zombieRow2.getChildren().isEmpty()
-                        && zombieRow3.getChildren().isEmpty() && zombieRow4.getChildren().isEmpty()
-                        && zombieRow5.getChildren().isEmpty()) {
-                    System.out.println("WIN");
-                    break;
+            AtomicBoolean run = new AtomicBoolean(true);
+            while (run.get()) {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
+                Platform.runLater(() -> {
+                    if (zombieProgressBar.getValue() >= 100) {
+
+                        winAction();
+                        run.set(false);
+                    }
+                });
             }
-        });
+        }).start();
 
     }
 
@@ -608,5 +619,14 @@ public class DayMapController implements Initializable {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void winAction(){
+        WinPage winPage = new WinPage();
+        try {
+            winPage.start(currentStage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
