@@ -8,6 +8,7 @@ import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -357,6 +358,33 @@ public class DayMapController implements Initializable {
         }
     }
 
+    private void explosivePlant(String type, ImageView plantImageView , Plant detectedPlant , ArrayList<AnchorPane> zombieRowList) {
+        //ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
+
+        for (AnchorPane zombieRow : zombieRowList) {
+            if (!zombieRow.getChildren().isEmpty()) {
+                ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
+                Bounds plantBounds = plantImageView.localToScene(plantImageView.getBoundsInLocal());
+                Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
+                Bounds explosiveRadious = new BoundingBox(
+                        zombieBounds.getMinX() - 500,
+                        zombieBounds.getMinY() - 500,
+                        zombieBounds.getWidth() + 500,
+                        zombieBounds.getHeight() + 500
+                );
+                if (plantBounds.intersects(zombieBounds) ) {
+                    zombieRow.getChildren().remove(zombieImageView);
+
+                }
+
+            }
+
+
+        }
+        mapGridPane.getChildren().remove(plantImageView);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -510,6 +538,16 @@ public class DayMapController implements Initializable {
         }else if (currentPlantName.equals("snowpea")) {
             Platform.runLater(() -> {
                 greenBulletAction(cell, zombieRowList, zombieList.getFirst() , "snowy");
+            });
+        }else if (currentPlantName.equals("cherrybomb")) {
+            ArrayList<AnchorPane> zombieAncherpaneList = new ArrayList<>();
+            zombieAncherpaneList.add(zombieRow1);
+            zombieAncherpaneList.add(zombieRow2);
+            zombieAncherpaneList.add(zombieRow3);
+            zombieAncherpaneList.add(zombieRow4);
+            zombieAncherpaneList.add(zombieRow5);
+            Platform.runLater(() -> {
+                explosivePlant("cherrybomb" ,cell , currentPlant,zombieAncherpaneList);
             });
         }
 
