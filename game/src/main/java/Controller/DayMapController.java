@@ -79,7 +79,7 @@ public class DayMapController implements Initializable {
     ArrayList<Plant> row4PlantList = new ArrayList<>();
     ArrayList<Plant> row5PlantList = new ArrayList<>();
     private Map<Zombie, Timeline> zombieTimelineList = new HashMap<>();
-    private int sunAmount = 500;
+    private int sunAmount = 1000;
     @FXML
     private Label sunAmountlabel;
     @FXML
@@ -182,26 +182,25 @@ public class DayMapController implements Initializable {
                     if (rowIndex == null) {
                         rowIndex = 0;
                     }
-
-                    while (rowIndex == 0 && !zombieRow1.getChildren().isEmpty()) {
-                        rowAction(0, zombieRow1, cell ,row1ZombieList );
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
+                    while (true){
+                        if (rowIndex == 0 && !zombieRow1.getChildren().isEmpty()){
+                            rowAction(0, zombieRow1, cell ,row1ZombieList );
+                        }else if (rowIndex == 1 && !zombieRow2.getChildren().isEmpty()){
+                            rowAction(1, zombieRow2, cell ,row2ZombieList );
+                        }else if (rowIndex == 2 && !zombieRow3.getChildren().isEmpty()){
+                            rowAction(2, zombieRow3, cell ,row3ZombieList );
+                        }else if (rowIndex == 3 && !zombieRow4.getChildren().isEmpty()){
+                              rowAction(3, zombieRow4, cell ,row4ZombieList );
+                        }else if (rowIndex == 4 && !zombieRow5.getChildren().isEmpty()){
+                              rowAction(4, zombieRow5, cell ,row5ZombieList );
+                        }
 
-                    while (rowIndex == 1 && !zombieRow2.getChildren().isEmpty()) {
-                        rowAction(1, zombieRow2, cell ,row2ZombieList );
                     }
-
-                    while (rowIndex == 2 && !zombieRow3.getChildren().isEmpty()) {
-                        rowAction(2, zombieRow3, cell ,row3ZombieList );
-                    }
-                    while (rowIndex == 3 && !zombieRow4.getChildren().isEmpty()) {
-                        rowAction(3, zombieRow4, cell ,row4ZombieList );
-                    }
-                    while (rowIndex == 4 && !zombieRow5.getChildren().isEmpty() ) {
-                        rowAction(4, zombieRow5, cell ,row5ZombieList );
-                    }
-
-
                 }).start();
             }
 
@@ -255,10 +254,8 @@ public class DayMapController implements Initializable {
         ImageView greenbullet = new ImageView();
         if (bulletType.equals("snowy")){
             greenbullet.setImage(new Image(getClass().getResource("/assesst/snowyBullet.png").toExternalForm()));
-//             greenbullet = new ImageView(new Image(getClass().getResource("/assesst/snowyBullet.png").toExternalForm()));
         }else {
             greenbullet.setImage(new Image(getClass().getResource("/assesst/greenBullet.png").toExternalForm()));
-//             greenbullet = new ImageView(new Image(getClass().getResource("/assesst/greenBullet.png").toExternalForm()));
         }
 
         greenbullet.setFitHeight(30);
@@ -433,14 +430,27 @@ public class DayMapController implements Initializable {
                     Duration.seconds(11 * j),
                     e -> {
                         spwanZombie(zombieNumber, zombieRowList);
-                        zombieProgressBar.setValue(zombieProgressBar.getValue() + 20);
+                        zombieProgressBar.setValue(zombieProgressBar.getValue() + 25);
                     }
             );
             zombieWaveTimeline.getKeyFrames().add(keyFrame);
 
 
+
         }
         zombieWaveTimeline.play();
+
+        new Thread(() -> {
+            while (true) {
+                if (zombieRow1.getChildren().isEmpty() && zombieRow2.getChildren().isEmpty()
+                && zombieRow3.getChildren().isEmpty() && zombieRow4.getChildren().isEmpty()
+                && zombieRow5.getChildren().isEmpty()) {
+                    System.out.println("WIN");
+                    break;
+                }
+            }
+        });
+
     }
 
     private void openLosePage() {
@@ -558,6 +568,4 @@ public class DayMapController implements Initializable {
         }
 
     }
-
-
 }
