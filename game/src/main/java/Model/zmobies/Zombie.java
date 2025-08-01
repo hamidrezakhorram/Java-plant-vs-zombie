@@ -1,6 +1,6 @@
 package Model.zmobies;
 
-public class Zombie {
+public class Zombie implements Cloneable {
     private String name;
     private int health;
     private String gifUrl;

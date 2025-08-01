@@ -1,6 +1,8 @@
 package Model.plants;
 
-public class Plant {
+import Model.zmobies.Zombie;
+
+public class Plant implements Cloneable {
     private String name;
     private int buildCost;
     private String gifUrl;
@@ -33,5 +35,9 @@ public class Plant {
 
     public void setGifUrl(String gifUrl) {
         this.gifUrl = gifUrl;
+    }
+    @Override
+    public Plant clone() throws CloneNotSupportedException {
+        return (Plant) super.clone();
     }
 }

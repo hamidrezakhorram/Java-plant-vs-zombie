@@ -77,7 +77,7 @@ public class PlantInitialize {
     public static ProducerPlant sunflower(){
         ProducerPlant plant = new ProducerPlant();
         plant.setGifUrl("/assesst/Sunflower.gif");
-        plant.setHealth(100);
+        plant.setHealth(30);
         plant.setBuildCost(50);
         plant.setProduceAmount(25);
         plant.setName("sunflower");
