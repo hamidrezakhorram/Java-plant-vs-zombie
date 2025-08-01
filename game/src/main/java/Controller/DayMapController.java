@@ -68,6 +68,15 @@ public class DayMapController implements Initializable {
     public static void setPlantList(ArrayList<Plant> plantList) {
         DayMapController.plantList = plantList;
     }
+    private static int zombieWaveNumber = 1;
+
+    public static int getZombieWaveNumber() {
+        return zombieWaveNumber;
+    }
+
+    public static void setZombieWaveNumber(int zombieWaveNumber) {
+        DayMapController.zombieWaveNumber = zombieWaveNumber;
+    }
 
     ArrayList<Zombie> row1ZombieList = new ArrayList<>();
     ArrayList<Zombie> row2ZombieList = new ArrayList<>();
@@ -386,7 +395,6 @@ public class DayMapController implements Initializable {
     }
 
     private void explosivePlant(String type, ImageView plantImageView, Plant detectedPlant, ArrayList<AnchorPane> zombieRowList) {
-        //ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
 
         for (AnchorPane zombieRow : zombieRowList) {
             if (!zombieRow.getChildren().isEmpty()) {
@@ -455,19 +463,19 @@ public class DayMapController implements Initializable {
         }).start();
         Timeline zombieWaveTimeline = new Timeline();
 
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < DayMapController.zombieWaveNumber; j++) {
             int finalJ = j;
             KeyFrame keyFrame = new KeyFrame(
                     Duration.seconds(11 * j),
                     e -> {
-                        if (finalJ !=4){
+                        if (finalJ !=DayMapController.zombieWaveNumber -1) {
                             try {
                                 spwanZombie(zombieNumber, zombieRowList);
                             } catch (CloneNotSupportedException ex) {
                                 throw new RuntimeException(ex);
                             }
                         }
-                        zombieProgressBar.setValue(zombieProgressBar.getValue() + 20);
+                        zombieProgressBar.setValue(zombieProgressBar.getValue() + (100 / DayMapController.zombieWaveNumber));
                     }
             );
             zombieWaveTimeline.getKeyFrames().add(keyFrame);

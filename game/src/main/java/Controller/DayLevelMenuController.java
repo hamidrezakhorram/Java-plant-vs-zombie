@@ -21,33 +21,33 @@ public class DayLevelMenuController {
     @FXML
     void ChooseLevel1(MouseEvent event) {
         ChoosePlantController.setLevelNumber(1);
+        choosePlantPage();
+
+    }
+
+    @FXML
+    void ChooseLevel2(MouseEvent event) {
+       ChoosePlantController.setLevelNumber(2);
+       choosePlantPage();
+    }
+
+    @FXML
+    void ChooseLevel3(MouseEvent event) {
+      ChoosePlantController.setLevelNumber(3);
+      choosePlantPage();
+    }
+
+    @FXML
+    void chooseNighLevels(MouseEvent event) {
+
+    }
+    private void choosePlantPage() {
         ChoosePlantPage choosePlantPage = new ChoosePlantPage();
         try {
             choosePlantPage.start(currentStage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//            Level1Page level1Page = new Level1Page();
-//            try {
-//                level1Page.start(currentStage);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-    }
-
-    @FXML
-    void ChooseLevel2(MouseEvent event) {
-
-    }
-
-    @FXML
-    void ChooseLevel3(MouseEvent event) {
-
-    }
-
-    @FXML
-    void chooseNighLevels(MouseEvent event) {
-
     }
 
 }

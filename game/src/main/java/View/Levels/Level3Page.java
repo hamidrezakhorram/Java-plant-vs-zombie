@@ -1,11 +1,8 @@
 package View.Levels;
 
-import Controller.ChoosePlantController;
 import Controller.DayMapController;
 import Controller.InitializeZombies;
 import Model.zmobies.Zombie;
-import View.ChoosePlantPage;
-import View.DayMap;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,12 +11,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Level1Page extends Application {
+public class Level3Page extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        DayMapController.setZombieTotalNumber(3);
-        DayMapController.setZombieWaveNumber(4);
+        DayMapController.setZombieTotalNumber(4);
+        DayMapController.setZombieWaveNumber(6);
         ArrayList<Zombie> zombieList = new ArrayList<>();
         zombieList.add(InitializeZombies.simpleZombie());
         zombieList.add(InitializeZombies.coneheadZombie());
@@ -27,11 +24,9 @@ public class Level1Page extends Application {
         DayMapController.setZombieList(zombieList);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/daymap_1.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 650, 500);
-        stage.setTitle("Level 1");
+        stage.setTitle("Level 3");
         DayMapController.setCurrentStage(stage);
         stage.setScene(scene);
         stage.show();
     }
-
-
 }
