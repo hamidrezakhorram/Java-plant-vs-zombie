@@ -20,7 +20,7 @@ public class Level4Page extends Application {
         ArrayList<Zombie> zombieList = new ArrayList<>();
         zombieList.add(InitializeZombies.simpleZombie());
         zombieList.add(InitializeZombies.coneheadZombie());
-        zombieList.add(InitializeZombies.flagZombie());
+        zombieList.add(InitializeZombies.screenDoorZombie());
         DayMapController.setZombieList(zombieList);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/nightmap_2.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 650, 500);

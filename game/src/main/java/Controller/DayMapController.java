@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.plants.Plant;
+import Model.zmobies.StrongZombie;
 import Model.zmobies.Zombie;
 import View.LosePage;
 import View.WinPage;
@@ -310,15 +311,34 @@ public class DayMapController implements Initializable {
                     this.stop();
                     timeline.stop();
                     mainAncharPain.getChildren().remove(greenbullet);
-                    if (detectedZombie.getHealth() > 0) {
-                        detectedZombie.setHealth(detectedZombie.getHealth() - 10);
-                        if (bulletType.equals("snowy")) {
-                            zombieTimeline.setRate(zombieTimeline.getRate() * .5);
+                    if (detectedZombie instanceof StrongZombie){
+                        StrongZombie strongZombie = (StrongZombie) detectedZombie;
+                        if (strongZombie.getName().equals("screenDoorZombie")) {
+                            if (strongZombie.getAttackResistance()>0){
+                                System.out.println("Strong Zombie");
+                                strongZombie.setAttackResistance(strongZombie.getAttackResistance() - 10);
+                            }else if (strongZombie.getHealth() > 0) {
+                                strongZombie.setHealth(strongZombie.getHealth() - 10);
+                                if (bulletType.equals("snowy")) {
+                                    zombieTimeline.setRate(zombieTimeline.getRate() * .5);
+                                }
+                            }else {
+                                zombieRow.getChildren().remove(zombieImageView);
+                            }
                         }
 
-                    } else {
-                        zombieRow.getChildren().remove(zombieImageView);
+                    }else {
+                        if (detectedZombie.getHealth() > 0) {
+                            detectedZombie.setHealth(detectedZombie.getHealth() - 10);
+                            if (bulletType.equals("snowy")) {
+                                zombieTimeline.setRate(zombieTimeline.getRate() * .5);
+                            }
+
+                        } else {
+                            zombieRow.getChildren().remove(zombieImageView);
+                        }
                     }
+
 
                 }
 
@@ -518,6 +538,8 @@ public class DayMapController implements Initializable {
         for (int i = 0; i < zombieNumber; i++) {
             Random random = new Random();
             int randomZombie = random.nextInt(3);
+
+
             Zombie zombie = zombieList.get(randomZombie).clone();
             new Thread(() -> {
 
