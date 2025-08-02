@@ -286,11 +286,20 @@ public class DayMapController implements Initializable {
     }
 
     private ImageView greenBulletAction(ImageView plant, AnchorPane zombieRow, Zombie detectedZombie, String bulletType) {
+
         ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
         ImageView greenbullet = new ImageView();
         if (bulletType.equals("snowy")) {
             greenbullet.setImage(new Image(getClass().getResource("/assesst/snowyBullet.png").toExternalForm()));
-        } else {
+        }else if (bulletType.equals("buble")) {
+
+            greenbullet.setImage(new Image(getClass().getResource("/assesst/ShroomBullet.gif").toExternalForm()));
+
+        }else if (bulletType.equals("shroom")) {
+            greenbullet.setImage(new Image(getClass().getResource("/assesst/shroomBullet.png").toExternalForm()));
+
+        }
+        else {
             greenbullet.setImage(new Image(getClass().getResource("/assesst/greenBullet.png").toExternalForm()));
         }
 
@@ -615,7 +624,6 @@ public class DayMapController implements Initializable {
 
         String currentPlantName = currentPlant.getName();
         String plantAddress = cell.getImage().getUrl();
-
         Platform.runLater(() -> {
 
             zombieEatPlant(cell, zombieRowList, zombieList, clonePlant);
@@ -661,6 +669,36 @@ public class DayMapController implements Initializable {
             zombieAncherpaneList.add(zombieRow5);
             Platform.runLater(() -> {
                 explosivePlant("cherrybomb", cell, currentPlant, zombieAncherpaneList);
+            });
+        }else if (currentPlantName.equals("fumeShroom")) {
+
+            Platform.runLater(() -> {
+
+                PauseTransition pause = new PauseTransition(Duration.seconds(.5));
+                pause.setOnFinished(event -> {
+                    greenBulletAction(cell, zombieRowList, zombieList.getFirst(), "buble");
+                });
+                pause.play();
+            });
+
+            Platform.runLater(() -> {
+                PauseTransition pause = new PauseTransition(Duration.seconds(.5));
+                greenBulletAction(cell, zombieRowList, zombieList.getFirst(), "buble");
+                pause.setOnFinished(event -> {
+
+                });
+                pause.play();
+
+
+            });
+        }else if (currentPlantName.equals("puffShroom")) {
+            Platform.runLater(() -> {
+                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                pause.setOnFinished(event -> {
+                    greenBulletAction(cell, zombieRowList, zombieList.getFirst(), "shroom");
+                });
+                pause.play();
+
             });
         }
 

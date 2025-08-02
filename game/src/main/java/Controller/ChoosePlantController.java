@@ -87,7 +87,12 @@ public class ChoosePlantController implements Initializable {
         availablePlantList.add(PlantInitialize.repeater());
         availablePlantList.add(PlantInitialize.snowpea());
         availablePlantList.add(PlantInitialize.wallNut());
-
+        availablePlantList.add(PlantInitialize.doomShroom());
+        availablePlantList.add(PlantInitialize.puffShroom());
+        availablePlantList.add(PlantInitialize.sunShroom());
+        availablePlantList.add(PlantInitialize.fumeShroom());
+        availablePlantList.add(PlantInitialize.iceShroom());
+        availablePlantList.add(PlantInitialize.scaredyShroom());
         for (Plant plant : availablePlantList) {
             ImageView plantImageView = new ImageView();
             plantImageView.setImage(new Image(getClass().getResource(plant.getGifUrl()).toExternalForm()));
