@@ -2,6 +2,7 @@ package Controller;
 
 import View.ChoosePlantPage;
 import View.DayLevelMenuPage;
+import View.Levels.Level4Page;
 import View.NightLevelMenuPage;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -32,7 +33,9 @@ public class NightLevelMenuController {
 
     @FXML
     void openLevel4(MouseEvent event) {
-       
+          ChoosePlantController.setLevelNumber(4);
+          choosePlantPage();
+
     }
 
     @FXML

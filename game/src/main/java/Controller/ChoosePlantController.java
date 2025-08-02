@@ -6,6 +6,7 @@ import View.DayMap;
 import View.Levels.Level1Page;
 import View.Levels.Level2Page;
 import View.Levels.Level3Page;
+import View.Levels.Level4Page;
 import View.LosePage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,6 +73,8 @@ public class ChoosePlantController implements Initializable {
             openLevel2();
         }else if (ChoosePlantController.levelNumber == 3) {
             openLevel3();
+        }else if (ChoosePlantController.levelNumber == 4) {
+            openLevel4();
         }
 
     }
@@ -126,6 +129,14 @@ public class ChoosePlantController implements Initializable {
         Level3Page level3Page = new Level3Page();
         try {
             level3Page.start(currentStage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void openLevel4()  {
+        Level4Page level4Page = new Level4Page();
+        try {
+            level4Page.start(currentStage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
