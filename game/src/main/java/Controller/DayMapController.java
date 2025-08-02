@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.plants.Plant;
+import Model.zmobies.SpecialZombie;
 import Model.zmobies.StrongZombie;
 import Model.zmobies.Zombie;
 import View.LosePage;
@@ -69,6 +70,7 @@ public class DayMapController implements Initializable {
     public static void setPlantList(ArrayList<Plant> plantList) {
         DayMapController.plantList = plantList;
     }
+
     private static int zombieWaveNumber = 1;
 
     public static int getZombieWaveNumber() {
@@ -200,38 +202,38 @@ public class DayMapController implements Initializable {
                     }
                     Plant plant = null;
                     try {
-                         plant = currentPlant.clone();
+                        plant = currentPlant.clone();
                     } catch (CloneNotSupportedException e) {
                         throw new RuntimeException(e);
                     }
                     while (true) {
                         if (rowIndex == 0 && !zombieRow1.getChildren().isEmpty()) {
                             try {
-                                rowAction(0, zombieRow1, cell, row1ZombieList , plant);
+                                rowAction(0, zombieRow1, cell, row1ZombieList, plant);
                             } catch (CloneNotSupportedException e) {
                                 throw new RuntimeException(e);
                             }
                         } else if (rowIndex == 1 && !zombieRow2.getChildren().isEmpty()) {
                             try {
-                                rowAction(1, zombieRow2, cell, row2ZombieList,plant);
+                                rowAction(1, zombieRow2, cell, row2ZombieList, plant);
                             } catch (CloneNotSupportedException e) {
                                 throw new RuntimeException(e);
                             }
                         } else if (rowIndex == 2 && !zombieRow3.getChildren().isEmpty()) {
                             try {
-                                rowAction(2, zombieRow3, cell, row3ZombieList,plant);
+                                rowAction(2, zombieRow3, cell, row3ZombieList, plant);
                             } catch (CloneNotSupportedException e) {
                                 throw new RuntimeException(e);
                             }
                         } else if (rowIndex == 3 && !zombieRow4.getChildren().isEmpty()) {
                             try {
-                                rowAction(3, zombieRow4, cell, row4ZombieList,plant);
+                                rowAction(3, zombieRow4, cell, row4ZombieList, plant);
                             } catch (CloneNotSupportedException e) {
                                 throw new RuntimeException(e);
                             }
                         } else if (rowIndex == 4 && !zombieRow5.getChildren().isEmpty()) {
                             try {
-                                rowAction(4, zombieRow5, cell, row5ZombieList,plant);
+                                rowAction(4, zombieRow5, cell, row5ZombieList, plant);
                             } catch (CloneNotSupportedException e) {
                                 throw new RuntimeException(e);
                             }
@@ -311,23 +313,43 @@ public class DayMapController implements Initializable {
                     this.stop();
                     timeline.stop();
                     mainAncharPain.getChildren().remove(greenbullet);
-                    if (detectedZombie instanceof StrongZombie){
+                    if (detectedZombie instanceof StrongZombie) {
                         StrongZombie strongZombie = (StrongZombie) detectedZombie;
                         if (strongZombie.getName().equals("screenDoorZombie")) {
-                            if (strongZombie.getAttackResistance()>0){
-                                System.out.println("Strong Zombie");
+                            if (strongZombie.getAttackResistance() > 0) {
+
                                 strongZombie.setAttackResistance(strongZombie.getAttackResistance() - 10);
-                            }else if (strongZombie.getHealth() > 0) {
+                            } else if (strongZombie.getHealth() > 0) {
                                 strongZombie.setHealth(strongZombie.getHealth() - 10);
                                 if (bulletType.equals("snowy")) {
                                     zombieTimeline.setRate(zombieTimeline.getRate() * .5);
+                                }
+                            } else {
+                                zombieRow.getChildren().remove(zombieImageView);
+
+                            }
+                        }
+
+                    } else if (detectedZombie instanceof SpecialZombie) {
+                        SpecialZombie specialZombie = (SpecialZombie) detectedZombie;
+                        if (specialZombie.getName().equals("newspaperZombie")) {
+                            System.out.println("newpaper");
+                            if (specialZombie.getChangeablePower() >0){
+                                specialZombie.setChangeablePower(specialZombie.getChangeablePower() - 10);
+                            }else if (specialZombie.getHealth() > 0) {
+                                specialZombie.setHealth(specialZombie.getHealth() - 10);
+
+                                if (bulletType.equals("snowy")) {
+                                    zombieTimeline.setRate(zombieTimeline.getRate() * .5);
+                                }else {
+                                    zombieTimeline.setRate(zombieTimeline.getRate() * 1.5);
                                 }
                             }else {
                                 zombieRow.getChildren().remove(zombieImageView);
                             }
                         }
 
-                    }else {
+                    } else {
                         if (detectedZombie.getHealth() > 0) {
                             detectedZombie.setHealth(detectedZombie.getHealth() - 10);
                             if (bulletType.equals("snowy")) {
@@ -488,7 +510,7 @@ public class DayMapController implements Initializable {
             KeyFrame keyFrame = new KeyFrame(
                     Duration.seconds(11 * j),
                     e -> {
-                        if (finalJ !=DayMapController.zombieWaveNumber -1) {
+                        if (finalJ != DayMapController.zombieWaveNumber - 1) {
                             try {
                                 spwanZombie(zombieNumber, zombieRowList);
                             } catch (CloneNotSupportedException ex) {
@@ -499,7 +521,6 @@ public class DayMapController implements Initializable {
                     }
             );
             zombieWaveTimeline.getKeyFrames().add(keyFrame);
-
 
 
         }
@@ -590,7 +611,7 @@ public class DayMapController implements Initializable {
 
     }
 
-    private void rowAction(int rowIndex, AnchorPane zombieRowList, ImageView cell, ArrayList<Zombie> zombieList , Plant clonePlant) throws CloneNotSupportedException {
+    private void rowAction(int rowIndex, AnchorPane zombieRowList, ImageView cell, ArrayList<Zombie> zombieList, Plant clonePlant) throws CloneNotSupportedException {
 
         String currentPlantName = currentPlant.getName();
         String plantAddress = cell.getImage().getUrl();
@@ -651,7 +672,7 @@ public class DayMapController implements Initializable {
 
     }
 
-    private void winAction(){
+    private void winAction() {
         WinPage winPage = new WinPage();
         try {
             winPage.start(currentStage);

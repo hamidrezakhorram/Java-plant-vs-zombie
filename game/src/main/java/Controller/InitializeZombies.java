@@ -55,7 +55,7 @@ public class InitializeZombies {
         zombie.setHealth(50);
         zombie.setMovementSpeed(5);
         zombie.setDestructionPower(5);
-        zombie.setChangeablePower(15);
+        zombie.setChangeablePower(30);
         zombie.setSpecialAbility("withNewspaper");
         return zombie;
     }
