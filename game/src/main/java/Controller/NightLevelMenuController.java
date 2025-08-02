@@ -1,16 +1,16 @@
 package Controller;
 
 import View.ChoosePlantPage;
-import View.Levels.Level1Page;
-import View.LosePage;
+import View.DayLevelMenuPage;
 import View.NightLevelMenuPage;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class DayLevelMenuController {
+public class NightLevelMenuController {
     private static Stage currentStage;
     public static Stage getCurrentStage() {
         return currentStage;
@@ -19,35 +19,32 @@ public class DayLevelMenuController {
     public static void setCurrentStage(Stage stage) {
         currentStage = stage;
     }
-    @FXML
-    void ChooseLevel1(MouseEvent event) {
-        ChoosePlantController.setLevelNumber(1);
-        choosePlantPage();
-
-    }
 
     @FXML
-    void ChooseLevel2(MouseEvent event) {
-       ChoosePlantController.setLevelNumber(2);
-       choosePlantPage();
-    }
-
-    @FXML
-    void ChooseLevel3(MouseEvent event) {
-      ChoosePlantController.setLevelNumber(3);
-      choosePlantPage();
-    }
-
-    @FXML
-    void chooseNighLevels(MouseEvent event) {
-        NightLevelMenuPage nightLevelMenuPage = new NightLevelMenuPage();
+    void openDaylevel(MouseEvent event) {
+        DayLevelMenuPage dayLevelMenuPage = new DayLevelMenuPage();
         try {
-            nightLevelMenuPage.start(currentStage);
+            dayLevelMenuPage.start(currentStage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    void openLevel4(MouseEvent event) {
+       
+    }
+
+    @FXML
+    void openLevel5(MouseEvent event) {
 
     }
+
+    @FXML
+    void openLevel6(MouseEvent event) {
+
+    }
+
     private void choosePlantPage() {
         ChoosePlantPage choosePlantPage = new ChoosePlantPage();
         try {
