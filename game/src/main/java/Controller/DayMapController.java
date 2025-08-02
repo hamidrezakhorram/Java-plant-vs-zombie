@@ -182,13 +182,40 @@ public class DayMapController implements Initializable {
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
-                            porduceSun("sunflower", cell);
+                            porduceSun("sunflower", cell , true);
+
+                        }
+
+
+                    }).start();
+                }else if (currentPlant.getName().equals("sunShroom")) {
+                    new Thread(() -> {
+                        long startTime = System.currentTimeMillis();
+                        boolean sunShroomGrow = false;
+
+
+                        while (true) {
+                            long estimatedTime = System.currentTimeMillis() - startTime;
+                            if (estimatedTime > 5000) {
+                                System.out.println(estimatedTime);
+
+                                sunShroomGrow = true;
+                            }
+                            Random rand = new Random();
+                            int randNum = rand.nextInt(1000, 2000);
+                            try {
+                                Thread.sleep(5000 + randNum);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            porduceSun("sunShroom", cell,sunShroomGrow);
 
                         }
 
 
                     }).start();
                 }
+
                 new Thread(() -> {
                     final ImageView[] bullet = new ImageView[1];
                     Integer rowIndex = GridPane.getRowIndex((Node) cell);
@@ -342,7 +369,7 @@ public class DayMapController implements Initializable {
                     } else if (detectedZombie instanceof SpecialZombie) {
                         SpecialZombie specialZombie = (SpecialZombie) detectedZombie;
                         if (specialZombie.getName().equals("newspaperZombie")) {
-                            System.out.println("newpaper");
+
                             if (specialZombie.getChangeablePower() >0){
                                 specialZombie.setChangeablePower(specialZombie.getChangeablePower() - 10);
                             }else if (specialZombie.getHealth() > 0) {
@@ -395,7 +422,7 @@ public class DayMapController implements Initializable {
                 if (plantBounds.intersects(zombieBounds) & detectedPlant.getHealth() > 0) {
 
                     detectedPlant.setHealth(detectedPlant.getHealth() - 10);
-                    System.out.println(detectedPlant.getHealth() + " " + detectedPlant.getName());
+
                     zombieTimeline.pause();
                 } else {
                     zombieTimeline.play();
@@ -409,7 +436,7 @@ public class DayMapController implements Initializable {
 
     }
 
-    private void porduceSun(String type, ImageView plantImageView) {
+    private void porduceSun(String type, ImageView plantImageView, boolean sunShroomGrow) {
         ImageView flowerClone = new ImageView();
         flowerClone.setImage(sunImage.getImage());
         flowerClone.setFitWidth(sunImage.getFitWidth());
@@ -418,7 +445,12 @@ public class DayMapController implements Initializable {
         flowerClone.setY(sunImage.getY());
         flowerClone.setVisible(sunImage.isVisible());
         flowerClone.setOnMouseClicked(mouseEvent -> {
-            sunAmount += 50;
+            if (!sunShroomGrow && type.equals("sunShroom")) {
+                sunAmount+=15;
+            }else {
+                sunAmount += 50;
+            }
+
             sunAmountlabel.setText(String.valueOf(sunAmount));
             stackpainAncherpain.getChildren().remove(flowerClone);
         });
@@ -429,7 +461,18 @@ public class DayMapController implements Initializable {
                 flowerClone.setLayoutY(plantImageView.getLayoutY() + 10);
                 flowerClone.setVisible(true);
             });
-        } else {
+        }else if (type.equals("sunShroom")) {
+
+            Platform.runLater(() -> {
+
+                stackpainAncherpain.getChildren().add(flowerClone);
+                flowerClone.setLayoutX(plantImageView.getLayoutX() + 10);
+                flowerClone.setLayoutY(plantImageView.getLayoutY() + 10);
+                flowerClone.setVisible(true);
+
+            });
+        }
+        else {
 
             Random random = new Random();
             int randomPositionX = random.nextInt(1, 400);
@@ -506,7 +549,7 @@ public class DayMapController implements Initializable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                porduceSun("field", new ImageView());
+                porduceSun("field", new ImageView(),true);
 
             }
 
