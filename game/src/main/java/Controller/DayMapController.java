@@ -214,6 +214,34 @@ public class DayMapController implements Initializable {
 
 
                     }).start();
+                }else if (currentPlant.getName().equals("iceshroom")) {
+                    ArrayList<Zombie> allZombieList = new ArrayList<>();
+                    allZombieList.addAll(row1ZombieList);
+                    allZombieList.addAll(row2ZombieList);
+                    allZombieList.addAll(row3ZombieList);
+                    allZombieList.addAll(row4ZombieList);
+                    allZombieList.addAll(row5ZombieList);
+                    new Thread(() -> {
+
+                        for (Zombie zombie : allZombieList) {
+
+                            Timeline zombieTimeline = zombieTimelineList.get(zombie);
+                            zombieTimeline.pause();
+                            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(4));
+                            pauseTransition.setOnFinished(iceEvent -> {
+                                zombieTimeline.play();
+                            });
+                            Platform.runLater(pauseTransition::play);
+
+
+
+
+
+                        }
+                        Platform.runLater(() -> {
+                            mapGridPane.getChildren().remove(cell);
+                        });
+                    }).start();
                 }
 
                 new Thread(() -> {
@@ -674,6 +702,8 @@ public class DayMapController implements Initializable {
         }
 
     }
+
+
 
     private void rowAction(int rowIndex, AnchorPane zombieRowList, ImageView cell, ArrayList<Zombie> zombieList, Plant clonePlant) throws CloneNotSupportedException {
 
