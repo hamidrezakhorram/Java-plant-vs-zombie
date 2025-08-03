@@ -182,13 +182,13 @@ public class DayMapController implements Initializable {
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
-                            porduceSun("sunflower", cell , true);
+                            porduceSun("sunflower", cell, true);
 
                         }
 
 
                     }).start();
-                }else if (currentPlant.getName().equals("sunShroom")) {
+                } else if (currentPlant.getName().equals("sunShroom")) {
                     new Thread(() -> {
                         long startTime = System.currentTimeMillis();
                         boolean sunShroomGrow = false;
@@ -208,7 +208,7 @@ public class DayMapController implements Initializable {
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
-                            porduceSun("sunShroom", cell,sunShroomGrow);
+                            porduceSun("sunShroom", cell, sunShroomGrow);
 
                         }
 
@@ -318,15 +318,14 @@ public class DayMapController implements Initializable {
         ImageView greenbullet = new ImageView();
         if (bulletType.equals("snowy")) {
             greenbullet.setImage(new Image(getClass().getResource("/assesst/snowyBullet.png").toExternalForm()));
-        }else if (bulletType.equals("buble")) {
+        } else if (bulletType.equals("buble")) {
 
             greenbullet.setImage(new Image(getClass().getResource("/assesst/ShroomBullet.gif").toExternalForm()));
 
-        }else if (bulletType.equals("shroom")) {
+        } else if (bulletType.equals("shroom")) {
             greenbullet.setImage(new Image(getClass().getResource("/assesst/shroomBullet.png").toExternalForm()));
 
-        }
-        else {
+        } else {
             greenbullet.setImage(new Image(getClass().getResource("/assesst/greenBullet.png").toExternalForm()));
         }
 
@@ -370,17 +369,17 @@ public class DayMapController implements Initializable {
                         SpecialZombie specialZombie = (SpecialZombie) detectedZombie;
                         if (specialZombie.getName().equals("newspaperZombie")) {
 
-                            if (specialZombie.getChangeablePower() >0){
+                            if (specialZombie.getChangeablePower() > 0) {
                                 specialZombie.setChangeablePower(specialZombie.getChangeablePower() - 10);
-                            }else if (specialZombie.getHealth() > 0) {
+                            } else if (specialZombie.getHealth() > 0) {
                                 specialZombie.setHealth(specialZombie.getHealth() - 10);
 
                                 if (bulletType.equals("snowy")) {
                                     zombieTimeline.setRate(zombieTimeline.getRate() * .5);
-                                }else {
+                                } else {
                                     zombieTimeline.setRate(zombieTimeline.getRate() * 1.5);
                                 }
-                            }else {
+                            } else {
                                 zombieRow.getChildren().remove(zombieImageView);
                             }
                         }
@@ -446,8 +445,8 @@ public class DayMapController implements Initializable {
         flowerClone.setVisible(sunImage.isVisible());
         flowerClone.setOnMouseClicked(mouseEvent -> {
             if (!sunShroomGrow && type.equals("sunShroom")) {
-                sunAmount+=15;
-            }else {
+                sunAmount += 15;
+            } else {
                 sunAmount += 50;
             }
 
@@ -461,7 +460,7 @@ public class DayMapController implements Initializable {
                 flowerClone.setLayoutY(plantImageView.getLayoutY() + 10);
                 flowerClone.setVisible(true);
             });
-        }else if (type.equals("sunShroom")) {
+        } else if (type.equals("sunShroom")) {
 
             Platform.runLater(() -> {
 
@@ -471,8 +470,7 @@ public class DayMapController implements Initializable {
                 flowerClone.setVisible(true);
 
             });
-        }
-        else {
+        } else {
 
             Random random = new Random();
             int randomPositionX = random.nextInt(1, 400);
@@ -489,28 +487,42 @@ public class DayMapController implements Initializable {
     }
 
     private void explosivePlant(String type, ImageView plantImageView, Plant detectedPlant, ArrayList<AnchorPane> zombieRowList) {
+        if (type.equals("cherrybomb")) {
+            for (AnchorPane zombieRow : zombieRowList) {
+                if (!zombieRow.getChildren().isEmpty()) {
+                    ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
+                    Bounds plantBounds = plantImageView.localToScene(plantImageView.getBoundsInLocal());
+                    Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
+                    Bounds explosiveRadious = new BoundingBox(
+                            zombieBounds.getMinX() - 500,
+                            zombieBounds.getMinY() - 500,
+                            zombieBounds.getWidth() + 500,
+                            zombieBounds.getHeight() + 500
+                    );
+                    if (plantBounds.intersects(zombieBounds)) {
+                        zombieRow.getChildren().remove(zombieImageView);
 
-        for (AnchorPane zombieRow : zombieRowList) {
-            if (!zombieRow.getChildren().isEmpty()) {
-                ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
-                Bounds plantBounds = plantImageView.localToScene(plantImageView.getBoundsInLocal());
-                Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
-                Bounds explosiveRadious = new BoundingBox(
-                        zombieBounds.getMinX() - 500,
-                        zombieBounds.getMinY() - 500,
-                        zombieBounds.getWidth() + 500,
-                        zombieBounds.getHeight() + 500
-                );
-                if (plantBounds.intersects(zombieBounds)) {
-                    zombieRow.getChildren().remove(zombieImageView);
+                    }
 
                 }
 
+
             }
+            mapGridPane.getChildren().remove(plantImageView);
+        } else if (type.equals("doomshroom")) {
+            for (AnchorPane zombieRow : zombieRowList) {
+                if (!zombieRow.getChildren().isEmpty()) {
+                    ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
+                    Bounds plantBounds = plantImageView.localToScene(plantImageView.getBoundsInLocal());
+                    Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
+                    zombieRow.getChildren().remove(zombieImageView);
+                }
 
 
+            }
+            mapGridPane.getChildren().remove(plantImageView);
         }
-        mapGridPane.getChildren().remove(plantImageView);
+
 
     }
 
@@ -549,7 +561,7 @@ public class DayMapController implements Initializable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                porduceSun("field", new ImageView(),true);
+                porduceSun("field", new ImageView(), true);
 
             }
 
@@ -713,7 +725,7 @@ public class DayMapController implements Initializable {
             Platform.runLater(() -> {
                 explosivePlant("cherrybomb", cell, currentPlant, zombieAncherpaneList);
             });
-        }else if (currentPlantName.equals("fumeShroom")) {
+        } else if (currentPlantName.equals("fumeShroom")) {
 
             Platform.runLater(() -> {
 
@@ -734,7 +746,7 @@ public class DayMapController implements Initializable {
 
 
             });
-        }else if (currentPlantName.equals("puffShroom")) {
+        } else if (currentPlantName.equals("puffShroom")) {
             Platform.runLater(() -> {
                 PauseTransition pause = new PauseTransition(Duration.seconds(2));
                 pause.setOnFinished(event -> {
@@ -742,6 +754,16 @@ public class DayMapController implements Initializable {
                 });
                 pause.play();
 
+            });
+        } else if (currentPlantName.equals("doomshroom")) {
+            ArrayList<AnchorPane> zombieAncherpaneList = new ArrayList<>();
+            zombieAncherpaneList.add(zombieRow1);
+            zombieAncherpaneList.add(zombieRow2);
+            zombieAncherpaneList.add(zombieRow3);
+            zombieAncherpaneList.add(zombieRow4);
+            zombieAncherpaneList.add(zombieRow5);
+            Platform.runLater(() -> {
+                explosivePlant("doomshroom", cell, currentPlant, zombieAncherpaneList);
             });
         }
 
