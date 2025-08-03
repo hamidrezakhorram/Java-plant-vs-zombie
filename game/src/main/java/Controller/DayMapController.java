@@ -527,7 +527,7 @@ public class DayMapController implements Initializable {
                             zombieBounds.getWidth() + 500,
                             zombieBounds.getHeight() + 500
                     );
-                    if (plantBounds.intersects(zombieBounds)) {
+                    if (plantBounds.intersects(explosiveRadious)) {
                         zombieRow.getChildren().remove(zombieImageView);
 
                     }
@@ -795,6 +795,23 @@ public class DayMapController implements Initializable {
             Platform.runLater(() -> {
                 explosivePlant("doomshroom", cell, currentPlant, zombieAncherpaneList);
             });
+        } else if (currentPlantName.equals("scaredyShroom")) {
+            ImageView zombieImageView =(ImageView) zombieRowList.getChildren().getFirst();
+            Bounds plantImageView = cell.localToScene(cell.getBoundsInLocal());
+            Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
+            Bounds scaredRadious = new BoundingBox(
+                    zombieBounds.getMinX() - 100,
+                    zombieBounds.getMinY() - 100,
+                    zombieBounds.getWidth() + 100,
+                    zombieBounds.getHeight() + 100
+            );
+            if (!scaredRadious.intersects(plantImageView)) {
+                Platform.runLater(() -> {
+                    greenBulletAction(cell, zombieRowList, zombieList.getFirst(), "buble");
+                });
+            }
+
+
         }
 
         try {
