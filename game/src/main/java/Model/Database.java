@@ -69,17 +69,12 @@ public class Database {
 
     }
 
-    public String update(int id, String columnName, String newValue) throws SQLException {
+    public String updateInfo(int id, String columnName, String newValue) throws SQLException {
         String sqlCommand;
         Statement statement = connection.createStatement();
-        if (columnName.equals("id")) {
-            return "you not allowed to update this column";
-        } else if (columnName.equals("payment")) {
-            sqlCommand = "UPDATE programmers SET payment = " + Integer.parseInt(newValue) + " WHERE id = " + id;
-            statement.execute(sqlCommand);
-        }
+
         newValue = String.format("'%s'", newValue);
-        sqlCommand = "UPDATE programmers SET " + columnName + " = " + newValue + " WHERE id = " + id;
+        sqlCommand = "UPDATE players SET " + columnName + " = " + newValue + " WHERE id = " + id;
         statement.execute(sqlCommand);
         return id + " " + columnName + " is updated to " + newValue;
     }

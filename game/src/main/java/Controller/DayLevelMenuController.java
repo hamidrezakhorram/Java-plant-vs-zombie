@@ -1,15 +1,13 @@
 package Controller;
 
-import View.ChoosePlantPage;
+import View.*;
 import View.Levels.Level1Page;
-import View.LosePage;
-import View.NightLevelMenuPage;
-import View.ScorePage;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class DayLevelMenuController {
     private static Stage currentStage;
@@ -67,4 +65,13 @@ public class DayLevelMenuController {
         }
     }
 
+    @FXML
+    void openSettingpage(MouseEvent event) {
+        SettingPage settingPage = new SettingPage();
+        try {
+            settingPage.start(currentStage);
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
