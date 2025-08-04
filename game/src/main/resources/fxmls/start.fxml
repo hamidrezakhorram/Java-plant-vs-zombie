@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5BBDCF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StartController">
+<AnchorPane fx:id="mainAncherPain" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5BBDCF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StartController">
    <children>
-      <Label layoutX="212.0" layoutY="41.0" prefHeight="86.0" prefWidth="170.0" text="START" textFill="WHITE">
-         <font>
-            <Font size="58.0" />
-         </font>
-      </Label>
-      <VBox layoutX="206.0" layoutY="142.0" prefHeight="166.0" prefWidth="188.0" spacing="30.0">
+      <ImageView fx:id="backgroundImage" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" smooth="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../assesst/startbackground_2.jpg" />
+         </image>
+      </ImageView>
+      <VBox layoutX="215.0" layoutY="129.0" prefHeight="166.0" prefWidth="188.0" spacing="30.0" AnchorPane.bottomAnchor="104.60000000000002" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="197.0" AnchorPane.topAnchor="129.0">
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#openSignupPage" prefHeight="36.0" prefWidth="188.0" text="Signup" />
             <Button mnemonicParsing="false" onMouseClicked="#openLoginPage" prefHeight="42.0" prefWidth="188.0" text="Login" />

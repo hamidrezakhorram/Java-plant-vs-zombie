@@ -40,12 +40,14 @@ public class NightLevelMenuController {
 
     @FXML
     void openLevel5(MouseEvent event) {
-
+        ChoosePlantController.setLevelNumber(5);
+        choosePlantPage();
     }
 
     @FXML
     void openLevel6(MouseEvent event) {
-
+        ChoosePlantController.setLevelNumber(6);
+        choosePlantPage();
     }
 
     private void choosePlantPage() {

@@ -17,8 +17,9 @@ public class StartPage extends Application {
       Database database = Database.getInstance();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/start.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 650, 500);
-        stage.setTitle("Star");
+        stage.setTitle("Plant vs Zombies");
         stage.setScene(scene);
+        stage.setFullScreen(true);
         StartController.setCurrentStage(stage);
         stage.show();
     }
