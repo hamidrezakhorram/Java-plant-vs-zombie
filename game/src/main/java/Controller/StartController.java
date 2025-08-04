@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -42,6 +43,8 @@ public class StartController implements Initializable {
     void exitAction(MouseEvent event) {
       Platform.exit();
     }
+    @FXML
+    private VBox buttonVbox;
 
     @FXML
     void openLoginPage(MouseEvent event) {
@@ -72,5 +75,9 @@ public class StartController implements Initializable {
         StartController.musicPlayer = mediaPlayer;
         backgroundImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
         backgroundImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
+        AnchorPane.setTopAnchor(buttonVbox, 500.0);
+        AnchorPane.setLeftAnchor(buttonVbox, 700.0);
+        AnchorPane.setRightAnchor(buttonVbox, 700.0);
+
     }
 }

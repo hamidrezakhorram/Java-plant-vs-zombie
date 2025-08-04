@@ -79,6 +79,16 @@ public class Database {
         return id + " " + columnName + " is updated to " + newValue;
     }
 
+    public String updateInfo(int id, String columnName, int newValue) throws SQLException {
+        String sqlCommand;
+        Statement statement = connection.createStatement();
+
+
+        sqlCommand = "UPDATE players SET " + columnName + " = " + newValue + " WHERE id = " + id;
+        statement.execute(sqlCommand);
+        return id + " " + columnName + " is updated to " + newValue;
+    }
+
     public String increase(String name1, String name2, int increaspayment) throws SQLException {
         name2 = String.format("'%s'", name2);
         String sqlCommand;

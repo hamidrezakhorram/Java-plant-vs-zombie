@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Database;
 import Model.plants.Plant;
 import Model.zmobies.SpecialZombie;
 import Model.zmobies.StrongZombie;
@@ -28,6 +29,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -629,7 +631,11 @@ public class DayMapController implements Initializable {
                 Platform.runLater(() -> {
                     if (zombieProgressBar.getValue() >= 100) {
 
-                        winAction();
+                        try {
+                            winAction();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                         run.set(false);
                     }
                 });
@@ -638,7 +644,8 @@ public class DayMapController implements Initializable {
 
     }
 
-    private void openLosePage() {
+    private void openLosePage() throws SQLException {
+        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId() ,"lost",LoginController.getCurrentPlayer().getLoss() + 1);
         LosePage losePage = new LosePage();
         try {
             losePage.start(currentStage);
@@ -693,7 +700,11 @@ public class DayMapController implements Initializable {
                     timeline.play();
                     timeline.setOnFinished(event -> {
                         if (zombieRowList.get(randomPlacer).getChildren().contains(zombieImageView)) {
-                            openLosePage();
+                            try {
+                                openLosePage();
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                         zombieRowList.get(randomPlacer).getChildren().remove(zombieImageView);
                     });
@@ -822,7 +833,9 @@ public class DayMapController implements Initializable {
 
     }
 
-    private void winAction() {
+    private void winAction() throws SQLException {
+        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId() , "score" , LoginController.getCurrentPlayer().getScore() + 10);
+        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId(),"win" , LoginController.getCurrentPlayer().getWin() +1);
         WinPage winPage = new WinPage();
         try {
             winPage.start(currentStage);
