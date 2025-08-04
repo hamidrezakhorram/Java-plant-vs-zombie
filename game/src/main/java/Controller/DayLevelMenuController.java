@@ -4,6 +4,7 @@ import View.ChoosePlantPage;
 import View.Levels.Level1Page;
 import View.LosePage;
 import View.NightLevelMenuPage;
+import View.ScorePage;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -52,6 +53,15 @@ public class DayLevelMenuController {
         ChoosePlantPage choosePlantPage = new ChoosePlantPage();
         try {
             choosePlantPage.start(currentStage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    void openScorepage(MouseEvent event) {
+       ScorePage scorePage = new ScorePage();
+        try {
+            scorePage.start(currentStage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

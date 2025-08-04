@@ -38,7 +38,7 @@ public class Database {
 
     public ArrayList<Player> getPlayerList() throws SQLException {
         ArrayList<Player> playerList = new ArrayList<>();
-        String sqlCommand = "SELECT username , password , score FROM players";
+        String sqlCommand = "SELECT id ,username , password , score , win , lost FROM players";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlCommand);
         int columnCount = resultSet.getMetaData().getColumnCount();
@@ -47,12 +47,18 @@ public class Database {
             for (int i = 0; i < columnCount; i++) {
 
                 String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
-                if (player.getUsername() == null){
+                if ( player.getId() == null) {
+                    player.setId(resultSet.getInt(columnName));
+                } else if (player.getUsername() == null) {
                     player.setUsername(resultSet.getString(columnName));
-                }else if (player.getPassword() == null){
+                } else if (player.getPassword() == null) {
                     player.setPassword(resultSet.getString(columnName));
-                }else {
-                    player.setScore(resultSet.getString(columnName));
+                } else if ((Integer) player.getScore() == null) {
+                    player.setScore(Integer.parseInt(resultSet.getString(columnName)));
+                } else if ((Integer) player.getWin() == null) {
+                    player.setWin(Integer.parseInt(resultSet.getString(columnName)));
+                } else if ((Integer) player.getLoss() == null) {
+                    player.setLoss(Integer.parseInt(resultSet.getString(columnName)));
                 }
 
             }
