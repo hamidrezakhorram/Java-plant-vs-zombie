@@ -2,7 +2,7 @@ module org.example.game1 {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-
+    requires javafx.media;
     opens View to javafx.fxml;
     opens Controller to javafx.fxml;
     opens Model to javafx.fxml;
