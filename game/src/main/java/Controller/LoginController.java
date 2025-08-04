@@ -5,22 +5,33 @@ import Model.Player;
 import View.DayLevelMenuPage;
 import View.StartPage;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
     private static Player currentPlayer;
 
     public static Player getCurrentPlayer() {
         return currentPlayer;
     }
-
+    @FXML
+    private ImageView backgroundImage;
+    @FXML
+    private AnchorPane mainAncherPain;
+    @FXML
+    private Label erroLable;
     public static void setCurrentPlayer(Player currentPlayer) {
         LoginController.currentPlayer = currentPlayer;
     }
@@ -48,6 +59,7 @@ public class LoginController {
                 break;
             }
         }
+        erroLable.setVisible(true);
     }
 
     @FXML
@@ -69,5 +81,10 @@ public class LoginController {
         }
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        backgroundImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
+        backgroundImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
+    }
 }
 

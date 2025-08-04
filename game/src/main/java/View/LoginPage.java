@@ -15,6 +15,8 @@ public class LoginPage extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 650, 500);
         stage.setTitle("Login");
         stage.setScene(scene);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
         LoginController.setCurrentStage(stage);
         stage.show();
     }

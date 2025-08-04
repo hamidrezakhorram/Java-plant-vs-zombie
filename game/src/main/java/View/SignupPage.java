@@ -15,6 +15,8 @@ public class SignupPage extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 650, 500);
         stage.setTitle("Signup");
         stage.setScene(scene);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
         SignupController.setCurrentStage(stage);
         stage.show();
     }

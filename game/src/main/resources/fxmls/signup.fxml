@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #007fff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SignupController">
+<AnchorPane fx:id="mainAncherPain" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #007fff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SignupController">
    <children>
-      <VBox layoutX="178.0" layoutY="127.0" prefHeight="104.0" prefWidth="267.0" spacing="20.0">
+      <ImageView fx:id="backgroundImage" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../assesst/startbackground_2.jpg" />
+         </image>
+      </ImageView>
+      <VBox layoutX="178.0" layoutY="127.0" prefHeight="104.0" prefWidth="267.0" spacing="20.0" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="400.0">
          <children>
             <TextField fx:id="nameField" promptText="Name" />
             <TextField fx:id="usernamwField" promptText="Username" />
@@ -19,12 +25,15 @@
             <PasswordField fx:id="repeadPasswordField" promptText="repeat password" />
          </children>
       </VBox>
-      <Label layoutX="207.0" layoutY="23.0" prefHeight="48.0" prefWidth="292.0" text="Signup" textAlignment="RIGHT" textFill="#e1e1e1">
+      <Button layoutX="355.0" layoutY="354.0" mnemonicParsing="false" onMouseClicked="#backAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #FF7903;" text="Back" textFill="WHITE" AnchorPane.leftAnchor="800.0" AnchorPane.topAnchor="650.0">
          <font>
-            <Font size="62.0" />
+            <Font name="System Bold Italic" size="14.0" />
          </font>
-      </Label>
-      <Button layoutX="353.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#SingupAction" text="signup" />
-      <Button layoutX="214.0" layoutY="353.0" mnemonicParsing="false" onMouseClicked="#backAction" prefHeight="26.0" prefWidth="52.0" text="Back" />
+      </Button>
+      <Button layoutX="184.0" layoutY="348.0" mnemonicParsing="false" onMouseClicked="#SingupAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #FF7903;" text="Signup" textFill="WHITE" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="650.0">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

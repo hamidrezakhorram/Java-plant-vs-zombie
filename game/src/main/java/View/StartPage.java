@@ -18,7 +18,9 @@ public class StartPage extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/start.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 650, 500);
         stage.setTitle("Plant vs Zombies");
+
         stage.setScene(scene);
+        stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
         StartController.setCurrentStage(stage);
         stage.show();
