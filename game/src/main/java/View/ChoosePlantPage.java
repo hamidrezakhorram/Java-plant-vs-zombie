@@ -17,6 +17,8 @@ public class ChoosePlantPage extends Application {
         stage.setTitle("Choose Plant");
         ChoosePlantController.setCurrentStage(stage);
         stage.setScene(scene);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
         stage.show();
     }
 }

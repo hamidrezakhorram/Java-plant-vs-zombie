@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #6FF527;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChoosePlantController">
+<AnchorPane fx:id="mainAncherPain" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #A16C2F;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChoosePlantController">
    <children>
-      <Label layoutX="63.0" layoutY="29.0" prefHeight="40.0" prefWidth="131.0" text="choosen plants">
+      <ImageView fx:id="availabelImage" fitHeight="333.0" fitWidth="601.0" layoutY="80.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.6000000000000227" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.6000000000000227" AnchorPane.topAnchor="80.0">
+         <image>
+            <Image url="@../assesst/SeedChooser_Background.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="chosenImage" fitHeight="70.0" fitWidth="602.0" layoutX="-3.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assesst/plant_header.jpg" />
+         </image>
+      </ImageView>
+      <HBox fx:id="choosenPlantsHbox" layoutX="98.0" layoutY="5.0" prefHeight="54.0" prefWidth="490.0" spacing="20.0" />
+      <HBox fx:id="availablePlantsHbox" layoutX="11.0" layoutY="136.0" prefHeight="70.0" prefWidth="573.0" spacing="50.0" />
+      <Button fx:id="submitButten" layoutX="261.0" layoutY="329.0" mnemonicParsing="false" onMouseClicked="#submitAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #FF7903;" text="submit" textFill="WHITE">
          <font>
-            <Font name="System Bold Italic" size="17.0" />
+            <Font name="System Bold Italic" size="14.0" />
          </font>
-      </Label>
-      <Label layoutX="420.0" layoutY="29.0" prefHeight="40.0" prefWidth="131.0" text="available plants">
-         <font>
-            <Font name="System Bold Italic" size="17.0" />
-         </font>
-      </Label>
-      <VBox fx:id="choosenPlantsVbox" layoutX="79.0" layoutY="79.0" prefHeight="290.0" prefWidth="100.0" />
-      <VBox fx:id="availablePlantsVbox" layoutX="430.0" layoutY="69.0" prefHeight="326.0" prefWidth="106.0" />
-      <Button layoutX="255.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#submitAction" prefHeight="26.0" prefWidth="94.0" text="Submit" />
+      </Button>
+      <HBox fx:id="availablePlantsHbox2" layoutX="14.0" layoutY="192.0" prefHeight="70.0" prefWidth="573.0" />
    </children>
 </AnchorPane>

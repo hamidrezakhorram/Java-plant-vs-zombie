@@ -15,6 +15,8 @@ public class DayLevelMenuPage extends Application {
         stage.setTitle("Day Level Menu");
         DayLevelMenuController.setCurrentStage(stage);
         stage.setScene(scene);
+//        stage.setFullScreenExitHint("");
+//        stage.setFullScreen(true);
         stage.show();
     }
 }

@@ -8,13 +8,11 @@ import View.LosePage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,16 +40,29 @@ public class ChoosePlantController implements Initializable {
     }
 
     @FXML
-    private VBox availablePlantsVbox;
+    private HBox availablePlantsHbox;
 
     @FXML
-    private VBox choosenPlantsVbox;
+    private HBox availablePlantsHbox2;
+
+    @FXML
+    private HBox choosenPlantsHbox;
+    @FXML
+    private ImageView chosenImage;
+
+    @FXML
+    private AnchorPane mainAncherPain;
+
+    @FXML
+    private Button submitButten;
+    @FXML
+    private ImageView availabelImage;
 
     ArrayList<Plant> availablePlantList = new ArrayList<>();
     ArrayList<Plant> choosenPlantList = new ArrayList<>();
     @FXML
     void submitAction(MouseEvent event) {
-        for (Node plantNode: choosenPlantsVbox.getChildren()) {
+        for (Node plantNode: choosenPlantsHbox.getChildren()) {
           ImageView  plantImageView = (ImageView) plantNode ;
 
             for (Plant plant: availablePlantList) {
@@ -82,6 +93,11 @@ public class ChoosePlantController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        availabelImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
+        availabelImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
+        chosenImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
+        AnchorPane.setLeftAnchor(choosenPlantsHbox, 250.0);
+        AnchorPane.setLeftAnchor(submitButten, 700.0);
         availablePlantList.add(PlantInitialize.sunflower());
         availablePlantList.add(PlantInitialize.peashooter());
         availablePlantList.add(PlantInitialize.cherryBomb());
@@ -98,16 +114,16 @@ public class ChoosePlantController implements Initializable {
             ImageView plantImageView = new ImageView();
             plantImageView.setImage(new Image(getClass().getResource(plant.getGifUrl()).toExternalForm()));
             plantImageView.setOnMouseClicked(event -> {
-                if (availablePlantsVbox.getChildren().contains(plantImageView)) {
-                    choosenPlantsVbox.getChildren().add(plantImageView);
-                    availablePlantsVbox.getChildren().remove(plantImageView);
+                if (availablePlantsHbox.getChildren().contains(plantImageView) && choosenPlantsHbox.getChildren().size() <= 5) {
+                    choosenPlantsHbox.getChildren().add(plantImageView);
+                    availablePlantsHbox.getChildren().remove(plantImageView);
                 }else {
-                    availablePlantsVbox.getChildren().add(plantImageView);
-                    choosenPlantsVbox.getChildren().remove(plantImageView);
+                    availablePlantsHbox.getChildren().add(plantImageView);
+                    choosenPlantsHbox.getChildren().remove(plantImageView);
                 }
 
             });
-            availablePlantsVbox.getChildren().add(plantImageView);
+            availablePlantsHbox.getChildren().add(plantImageView);
         }
 
 
