@@ -13,7 +13,7 @@ public class LosePage extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/lose.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 650, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 600, 500);
         stage.setTitle("You have lost!!");
         stage.setScene(scene);
         LoseController.setCurrentStage(stage);
