@@ -215,7 +215,7 @@ public class DayMapController implements Initializable {
 
 
                     }).start();
-                }else if (currentPlant.getName().equals("iceshroom")) {
+                } else if (currentPlant.getName().equals("iceshroom")) {
                     ArrayList<Zombie> allZombieList = new ArrayList<>();
                     allZombieList.addAll(row1ZombieList);
                     allZombieList.addAll(row2ZombieList);
@@ -235,14 +235,21 @@ public class DayMapController implements Initializable {
                             Platform.runLater(pauseTransition::play);
 
 
-
-
-
                         }
                         Platform.runLater(() -> {
                             mapGridPane.getChildren().remove(cell);
                         });
                     }).start();
+                } else if (currentPlantName.equals("cherrybomb")) {
+                    ArrayList<AnchorPane> zombieAncherpaneList = new ArrayList<>();
+                    zombieAncherpaneList.add(zombieRow1);
+                    zombieAncherpaneList.add(zombieRow2);
+                    zombieAncherpaneList.add(zombieRow3);
+                    zombieAncherpaneList.add(zombieRow4);
+                    zombieAncherpaneList.add(zombieRow5);
+                    Platform.runLater(() -> {
+                        explosivePlant("cherrybomb", cell, currentPlant, zombieAncherpaneList);
+                    });
                 }
 
                 new Thread(() -> {
@@ -262,6 +269,7 @@ public class DayMapController implements Initializable {
                     } catch (CloneNotSupportedException e) {
                         throw new RuntimeException(e);
                     }
+                    PauseTransition waitForZombie = new PauseTransition(Duration.millis(100));
                     while (true) {
                         if (rowIndex == 0 && !zombieRow1.getChildren().isEmpty()) {
                             try {
@@ -270,6 +278,7 @@ public class DayMapController implements Initializable {
                                 throw new RuntimeException(e);
                             }
                         } else if (rowIndex == 1 && !zombieRow2.getChildren().isEmpty()) {
+
                             try {
                                 rowAction(1, zombieRow2, cell, row2ZombieList, plant);
                             } catch (CloneNotSupportedException e) {
@@ -325,25 +334,12 @@ public class DayMapController implements Initializable {
         alert.showAndWait();
     }
 
-    private Zombie simpleZombie() {
-        Zombie zombie = new Zombie();
-        zombie.setName("zombie");
-        zombie.setGifUrl("/assesst/SimpleZombie.gif");
-        zombie.setHealth(50);
-        return zombie;
-    }
 
-    private Zombie ConeheadZombie() {
-        Zombie zombie = new Zombie();
-        zombie.setName("zombie");
-        zombie.setGifUrl("/assesst/ConeheadZombie.gif");
-        zombie.setHealth(50);
-        return zombie;
-    }
 
     private ImageView greenBulletAction(ImageView plant, AnchorPane zombieRow, Zombie detectedZombie, String bulletType) {
 
         ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
+        System.out.println(zombieRow.getChildren());
         ImageView greenbullet = new ImageView();
         if (bulletType.equals("snowy")) {
             greenbullet.setImage(new Image(getClass().getResource("/assesst/snowyBullet.png").toExternalForm()));
@@ -379,7 +375,7 @@ public class DayMapController implements Initializable {
                     mainAncharPain.getChildren().remove(greenbullet);
                     if (detectedZombie instanceof StrongZombie) {
                         StrongZombie strongZombie = (StrongZombie) detectedZombie;
-                        if (strongZombie.getName().equals("screenDoorZombie")) {
+
                             if (strongZombie.getAttackResistance() > 0) {
 
                                 strongZombie.setAttackResistance(strongZombie.getAttackResistance() - 10);
@@ -392,7 +388,7 @@ public class DayMapController implements Initializable {
                                 zombieRow.getChildren().remove(zombieImageView);
 
                             }
-                        }
+
 
                     } else if (detectedZombie instanceof SpecialZombie) {
                         SpecialZombie specialZombie = (SpecialZombie) detectedZombie;
@@ -401,6 +397,7 @@ public class DayMapController implements Initializable {
                             if (specialZombie.getChangeablePower() > 0) {
                                 specialZombie.setChangeablePower(specialZombie.getChangeablePower() - 10);
                             } else if (specialZombie.getHealth() > 0) {
+                                System.out.println(specialZombie.getHealth());
                                 specialZombie.setHealth(specialZombie.getHealth() - 10);
 
                                 if (bulletType.equals("snowy")) {
@@ -409,6 +406,13 @@ public class DayMapController implements Initializable {
                                     zombieTimeline.setRate(zombieTimeline.getRate() * 1.5);
                                 }
                             } else {
+                                zombieRow.getChildren().remove(zombieImageView);
+                            }
+                        }else {
+                            if (specialZombie.getHealth()>0){
+                                specialZombie.setHealth(specialZombie.getHealth() - 10);
+                                zombieTimeline.setRate(zombieTimeline.getRate() * 1.2);
+                            }else {
                                 zombieRow.getChildren().remove(zombieImageView);
                             }
                         }
@@ -518,25 +522,38 @@ public class DayMapController implements Initializable {
     private void explosivePlant(String type, ImageView plantImageView, Plant detectedPlant, ArrayList<AnchorPane> zombieRowList) {
         if (type.equals("cherrybomb")) {
             for (AnchorPane zombieRow : zombieRowList) {
+                List<Node> removeZombieList = new ArrayList<>();
                 if (!zombieRow.getChildren().isEmpty()) {
-                    ImageView zombieImageView = (ImageView) zombieRow.getChildren().getFirst();
-                    Bounds plantBounds = plantImageView.localToScene(plantImageView.getBoundsInLocal());
-                    Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
-                    Bounds explosiveRadious = new BoundingBox(
-                            zombieBounds.getMinX() - 500,
-                            zombieBounds.getMinY() - 500,
-                            zombieBounds.getWidth() + 500,
-                            zombieBounds.getHeight() + 500
+                for (Node node : zombieRow.getChildren()) {
+
+                        ImageView zombieImageView = (ImageView) node;
+                        Bounds plantBounds = plantImageView.localToScene(plantImageView.getBoundsInLocal());
+                        Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
+                    Bounds explosiveRadius = new BoundingBox(
+                            plantBounds.getMinX() ,
+                            plantBounds.getMinY() ,
+                            plantBounds.getWidth() ,
+                            plantBounds.getHeight()
                     );
-                    if (plantBounds.intersects(explosiveRadious)) {
-                        zombieRow.getChildren().remove(zombieImageView);
+                    double zombieCenterX = zombieBounds.getMinX() + zombieBounds.getWidth() / 2;
+                    double zombieCenterY = zombieBounds.getMinY() + zombieBounds.getHeight() / 2;
 
+                    double plantCenterX = plantBounds.getMinX() + plantBounds.getWidth() / 2;
+                    double plantCenterY = plantBounds.getMinY() + plantBounds.getHeight() / 2;
+
+                    double distance = Math.hypot(zombieCenterX - plantCenterX, zombieCenterY - plantCenterY);
+
+
+                    double radius = 300;
+                    if (distance <= radius) {
+                        removeZombieList.add(zombieImageView);
                     }
-
+                    }
                 }
-
+                Platform.runLater(() -> zombieRow.getChildren().removeAll(removeZombieList));
 
             }
+            System.out.println("Hit");
             mapGridPane.getChildren().remove(plantImageView);
         } else if (type.equals("doomshroom")) {
             for (AnchorPane zombieRow : zombieRowList) {
@@ -636,9 +653,12 @@ public class DayMapController implements Initializable {
                     throw new RuntimeException(e);
                 }
                 Platform.runLater(() -> {
-                    if (zombieProgressBar.getValue() >= 100) {
+                    if (zombieProgressBar.getValue() >= 100 && zombieRow1.getChildren().isEmpty()
+                     && zombieRow2.getChildren().isEmpty() && zombieRow3.getChildren().isEmpty()
+                     && zombieRow4.getChildren().isEmpty() && zombieRow5.getChildren().isEmpty()) {
 
                         try {
+                            stopAction();
                             winAction();
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
@@ -652,7 +672,8 @@ public class DayMapController implements Initializable {
     }
 
     private void openLosePage() throws SQLException {
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId() ,"lost",LoginController.getCurrentPlayer().getLoss() + 1);
+        stopAction();
+        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId(), "lost", LoginController.getCurrentPlayer().getLoss() + 1);
         LosePage losePage = new LosePage();
         try {
             losePage.start(currentStage);
@@ -664,7 +685,7 @@ public class DayMapController implements Initializable {
     private void spwanZombie(int zombieNumber, ArrayList<AnchorPane> zombieRowList) throws CloneNotSupportedException {
         for (int i = 0; i < zombieNumber; i++) {
             Random random = new Random();
-            int randomZombie = random.nextInt(3);
+            int randomZombie = random.nextInt(zombieList.size());
 
 
             Zombie zombie = zombieList.get(randomZombie).clone();
@@ -678,8 +699,6 @@ public class DayMapController implements Initializable {
                 zombieImageView.setFitHeight(80);
                 zombieImageView.setLayoutX(600);
                 zombieImageView.setLayoutY(0);
-//                AnchorPane.setTopAnchor(zombieImageView, 10.0);
-//                AnchorPane.setLeftAnchor(zombieImageView, 10.0);
                 zombieImageView.setPreserveRatio(true);
                 zombieImageView.setSmooth(true);
                 zombieImageView.setCache(true);
@@ -687,14 +706,19 @@ public class DayMapController implements Initializable {
 
                 if (randomPlacer == 0) {
                     row1ZombieList.add(zombie);
+                    System.out.println(row1ZombieList);
                 } else if (randomPlacer == 1) {
                     row2ZombieList.add(zombie);
+                    System.out.println(row2ZombieList);
                 } else if (randomPlacer == 2) {
                     row3ZombieList.add(zombie);
+                    System.out.println(row3ZombieList);
                 } else if (randomPlacer == 3) {
                     row4ZombieList.add(zombie);
+                    System.out.println(row4ZombieList);
                 } else {
                     row5ZombieList.add(zombie);
+                    System.out.println(row5ZombieList);
                 }
                 zombieImageView.setImage(new Image(getClass().getResource(zombie.getGifUrl()).toExternalForm()));
                 Platform.runLater(() -> {
@@ -724,7 +748,6 @@ public class DayMapController implements Initializable {
     }
 
 
-
     private void rowAction(int rowIndex, AnchorPane zombieRowList, ImageView cell, ArrayList<Zombie> zombieList, Plant clonePlant) throws CloneNotSupportedException {
 
         String currentPlantName = currentPlant.getName();
@@ -741,7 +764,7 @@ public class DayMapController implements Initializable {
             Platform.runLater(() -> {
                 greenBulletAction(cell, zombieRowList, zombieList.getFirst(), "green");
             });
-        } else if (currentPlantName.equals("repeater")) {
+        } else if (currentPlantName.equals("repeater") && plantAddress.equals(getClass().getResource("/assesst/Repeater.gif").toExternalForm())) {
             Platform.runLater(() -> {
 
                 PauseTransition pause = new PauseTransition(Duration.seconds(.5));
@@ -761,21 +784,12 @@ public class DayMapController implements Initializable {
 
 
             });
-        } else if (currentPlantName.equals("snowpea")) {
+        } else if (currentPlantName.equals("snowpea") && plantAddress.equals(getClass().getResource("/assesst/SnowPea.gif").toExternalForm())) {
             Platform.runLater(() -> {
                 greenBulletAction(cell, zombieRowList, zombieList.getFirst(), "snowy");
             });
-        } else if (currentPlantName.equals("cherrybomb")) {
-            ArrayList<AnchorPane> zombieAncherpaneList = new ArrayList<>();
-            zombieAncherpaneList.add(zombieRow1);
-            zombieAncherpaneList.add(zombieRow2);
-            zombieAncherpaneList.add(zombieRow3);
-            zombieAncherpaneList.add(zombieRow4);
-            zombieAncherpaneList.add(zombieRow5);
-            Platform.runLater(() -> {
-                explosivePlant("cherrybomb", cell, currentPlant, zombieAncherpaneList);
-            });
-        } else if (currentPlantName.equals("fumeShroom")) {
+
+        } else if (currentPlantName.equals("fumeShroom") && plantAddress.equals(getClass().getResource("/assesst/FumeShroom.gif").toExternalForm())) {
 
             Platform.runLater(() -> {
 
@@ -796,7 +810,7 @@ public class DayMapController implements Initializable {
 
 
             });
-        } else if (currentPlantName.equals("puffShroom")) {
+        } else if (currentPlantName.equals("puffShroom") && plantAddress.equals(getClass().getResource("/assesst/PuffShroom.gif").toExternalForm())) {
             Platform.runLater(() -> {
                 PauseTransition pause = new PauseTransition(Duration.seconds(2));
                 pause.setOnFinished(event -> {
@@ -805,7 +819,7 @@ public class DayMapController implements Initializable {
                 pause.play();
 
             });
-        } else if (currentPlantName.equals("doomshroom")) {
+        } else if (currentPlantName.equals("doomshroom") && plantAddress.equals(getClass().getResource("/assesst/DoomShroom.gif").toExternalForm())) {
             ArrayList<AnchorPane> zombieAncherpaneList = new ArrayList<>();
             zombieAncherpaneList.add(zombieRow1);
             zombieAncherpaneList.add(zombieRow2);
@@ -815,8 +829,8 @@ public class DayMapController implements Initializable {
             Platform.runLater(() -> {
                 explosivePlant("doomshroom", cell, currentPlant, zombieAncherpaneList);
             });
-        } else if (currentPlantName.equals("scaredyShroom")) {
-            ImageView zombieImageView =(ImageView) zombieRowList.getChildren().getFirst();
+        } else if (currentPlantName.equals("scaredyShroom") && plantAddress.equals(getClass().getResource("/assesst/ScaredyShroom.gif").toExternalForm())) {
+            ImageView zombieImageView = (ImageView) zombieRowList.getChildren().getFirst();
             Bounds plantImageView = cell.localToScene(cell.getBoundsInLocal());
             Bounds zombieBounds = zombieImageView.localToScene(zombieImageView.getBoundsInLocal());
             Bounds scaredRadious = new BoundingBox(
@@ -843,8 +857,28 @@ public class DayMapController implements Initializable {
     }
 
     private void winAction() throws SQLException {
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId() , "score" , LoginController.getCurrentPlayer().getScore() + 10);
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId(),"win" , LoginController.getCurrentPlayer().getWin() +1);
+        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId(), "score", LoginController.getCurrentPlayer().getScore() + 10);
+        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId(), "win", LoginController.getCurrentPlayer().getWin() + 1);
+        if (ChoosePlantController.getLevelNumber() ==1){
+            unlockPlants("wallNut" , "snowpea");
+        } else if (ChoosePlantController.getLevelNumber() ==2) {
+            unlockPlants("repeater" ,"cherrybomb");
+        }else if (ChoosePlantController.getLevelNumber() ==3) {
+            unlockPlants("sunShroom" ,"puffShroom");
+        }else if (ChoosePlantController.getLevelNumber() ==4) {
+            unlockPlants("iceshroom" ,"fumeShroom");
+        } else if (ChoosePlantController.getLevelNumber() ==5) {
+            unlockPlants("doomshroom" ,"scaredyShroom");
+        }
+        for (Integer levelNumber : Database.getInstance().getLevelList(LoginController.getCurrentPlayer().getId())){
+            boolean isNew = true;
+            if (levelNumber == ChoosePlantController.getLevelNumber()){
+                isNew = false;
+            }
+            if (isNew) {
+                Database.getInstance().addNewLevel(LoginController.getCurrentPlayer().getId() ,ChoosePlantController.getLevelNumber());
+            }
+        }
         WinPage winPage = new WinPage();
         try {
             winPage.start(currentStage);
@@ -852,4 +886,24 @@ public class DayMapController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    private void stopAction(){
+        for (Timeline timeline : zombieTimelineList.values()){
+            timeline.stop();
+        }
+
+    }
+    private void unlockPlants( String plantName1 , String plantName2) throws SQLException {
+
+            boolean isNew = true;
+            for (String plantName : Database.getInstance().getPlantList(LoginController.getCurrentPlayer().getId())) {
+                if (plantName.equals(plantName1) || plantName.equals(plantName2)){
+                    isNew = false;
+                }
+            }
+            if (isNew){
+                Database.getInstance().addNewPlant(LoginController.getCurrentPlayer().getId() ,plantName1);
+                Database.getInstance().addNewPlant(LoginController.getCurrentPlayer().getId(),plantName2);
+            }
+        }
+
 }

@@ -1,9 +1,11 @@
 package Controller;
 
+import Model.Database;
 import View.*;
 import View.Levels.Level1Page;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -29,20 +31,20 @@ public class DayLevelMenuController implements Initializable {
     @FXML
     private AnchorPane mainAncherPain;
     @FXML
-    void ChooseLevel1(MouseEvent event) {
+    void ChooseLevel1(MouseEvent event) throws SQLException {
         ChoosePlantController.setLevelNumber(1);
         choosePlantPage();
 
     }
 
     @FXML
-    void ChooseLevel2(MouseEvent event) {
+    void ChooseLevel2(MouseEvent event) throws SQLException {
        ChoosePlantController.setLevelNumber(2);
        choosePlantPage();
     }
 
     @FXML
-    void ChooseLevel3(MouseEvent event) {
+    void ChooseLevel3(MouseEvent event) throws SQLException {
       ChoosePlantController.setLevelNumber(3);
       choosePlantPage();
     }
@@ -57,13 +59,27 @@ public class DayLevelMenuController implements Initializable {
         }
 
     }
-    private void choosePlantPage() {
-        ChoosePlantPage choosePlantPage = new ChoosePlantPage();
-        try {
-            choosePlantPage.start(currentStage);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private void choosePlantPage() throws SQLException {
+        boolean isUnlocked = false;
+        for (Integer levelNumber : Database.getInstance().getLevelList(LoginController.getCurrentPlayer().getId())){
+            if (levelNumber == ChoosePlantController.getLevelNumber()-1){
+                isUnlocked = true;
+            }
         }
+        if (isUnlocked){
+            ChoosePlantPage choosePlantPage = new ChoosePlantPage();
+            try {
+                choosePlantPage.start(currentStage);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("You have not Unlock this level!");
+            alert.showAndWait();
+        }
+
     }
     @FXML
     void openScorepage(MouseEvent event) {

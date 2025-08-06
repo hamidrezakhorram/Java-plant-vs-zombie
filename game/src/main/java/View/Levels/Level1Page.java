@@ -18,11 +18,11 @@ public class Level1Page extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        DayMapController.setZombieTotalNumber(3);
-        DayMapController.setZombieWaveNumber(4);
+        DayMapController.setZombieTotalNumber(1);
+        DayMapController.setZombieWaveNumber(5);
         ArrayList<Zombie> zombieList = new ArrayList<>();
-        zombieList.add(InitializeZombies.simpleZombie());
-        zombieList.add(InitializeZombies.coneheadZombie());
+//        zombieList.add(InitializeZombies.simpleZombie());
+//        zombieList.add(InitializeZombies.coneheadZombie());
         zombieList.add(InitializeZombies.flagZombie());
         DayMapController.setZombieList(zombieList);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/daymap_1.fxml"));

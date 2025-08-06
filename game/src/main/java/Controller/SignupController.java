@@ -57,6 +57,9 @@ public class SignupController implements Initializable {
         newPlayer.setPassword(passwordField.getText());
         newPlayer.setUsername(usernamwField.getText());
         Database.getInstance().addNewPlayer(newPlayer);
+        Database.getInstance().addNewPlant(Database.getInstance().setId() -1 ,"peashooter");
+        Database.getInstance().addNewPlant(Database.getInstance().setId() -1 ,"sunflower");
+        Database.getInstance().addNewLevel(Database.getInstance().setId() -1 ,0);
         LoginController.setCurrentPlayer(newPlayer);
         openLevelMenu();
     }

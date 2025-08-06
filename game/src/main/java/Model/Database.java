@@ -35,6 +35,23 @@ public class Database {
         statement.execute(sqlCommand);
 
     }
+    public void addNewPlant(int playerId , String plantName) throws SQLException {
+
+        Statement statement = connection.createStatement();
+        String sqlCommand = "INSERT INTO plants (id, name , playerId) VALUES" +
+                " (" + setPlantsId() + "," + String.format("'%s'",plantName) + "," +  playerId + ")";
+        statement.execute(sqlCommand);
+
+    }
+    public void addNewLevel(int playerId , int level) throws SQLException {
+
+        Statement statement = connection.createStatement();
+        String sqlCommand = "INSERT INTO levels (id, level , playerId) VALUES" +
+                " (" + setLevelsId() + "," + level + "," +  playerId + ")";
+        statement.execute(sqlCommand);
+
+    }
+
 
     public ArrayList<Player> getPlayerList() throws SQLException {
         ArrayList<Player> playerList = new ArrayList<>();
@@ -69,6 +86,45 @@ public class Database {
 
     }
 
+    public ArrayList<String> getPlantList(int playerId) throws SQLException {
+        ArrayList<String> plantNameList = new ArrayList<>();
+        String sqlCommand = "SELECT name FROM plants where playerId =" + playerId ;
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlCommand);
+        int columnCount = resultSet.getMetaData().getColumnCount();
+        while (resultSet.next()) {
+
+
+            plantNameList.add(resultSet.getString(1));
+
+
+
+        }
+        return plantNameList;
+
+    }
+
+
+    public ArrayList<Integer> getLevelList(int playerId) throws SQLException {
+        ArrayList<Integer> levelList = new ArrayList<>();
+        String sqlCommand = "SELECT level FROM levels where playerId =" + playerId ;
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlCommand);
+        int columnCount = resultSet.getMetaData().getColumnCount();
+        while (resultSet.next()) {
+
+
+            levelList.add(Integer.parseInt(resultSet.getString(1)));
+
+
+
+        }
+        return levelList;
+
+    }
+
+
+
     public String updateInfo(int id, String columnName, String newValue) throws SQLException {
         String sqlCommand;
         Statement statement = connection.createStatement();
@@ -89,33 +145,10 @@ public class Database {
         return id + " " + columnName + " is updated to " + newValue;
     }
 
-    public String increase(String name1, String name2, int increaspayment) throws SQLException {
-        name2 = String.format("'%s'", name2);
-        String sqlCommand;
-        if (name1.equals("fulltime")) {
-            sqlCommand = "UPDATE programmers SET payment = payment + " + increaspayment + " WHERE name = " + name2 + " AND contractType = 'fulltime' ";
-        } else {
-            name1 = String.format("'%s'", name1);
-
-            sqlCommand = "UPDATE programmers SET payment = payment + " + increaspayment + " WHERE name = " + name1 + " OR name = " + name2;
 
 
-        }
-        Statement statement = connection.createStatement();
-        statement.execute(sqlCommand);
-        return "payment increased";
 
-    }
-
-    public String delete(int payment) throws SQLException {
-        String sqlCommand = "DELETE FROM programmers WHERE payment < " + payment;
-        Statement statement = connection.createStatement();
-        statement.execute(sqlCommand);
-        return "delete from programmers WHERE payment was less than " + payment;
-    }
-
-
-    private int setId() throws SQLException {
+    public int setId() throws SQLException {
         Statement statement = connection.createStatement();
         String getLastInsertIdQuery = "SELECT MAX(id) FROM players";
         ResultSet resultSet = statement.executeQuery(getLastInsertIdQuery);
@@ -124,14 +157,27 @@ public class Database {
         return lastInsertedId + 1;
     }
 
-    private int setSkillId() throws SQLException {
+    private int setPlantsId() throws SQLException {
         Statement statement = connection.createStatement();
-        String getLastInsertIdQuery = "SELECT MAX(id) FROM skills";
+        String getLastInsertIdQuery = "SELECT MAX(id) FROM plants";
         ResultSet resultSet = statement.executeQuery(getLastInsertIdQuery);
         resultSet.next();
         int lastInsertedId = resultSet.getInt(1);
         return lastInsertedId + 1;
     }
+
+    private int setLevelsId() throws SQLException {
+        Statement statement = connection.createStatement();
+        String getLastInsertIdQuery = "SELECT MAX(id) FROM levels";
+        ResultSet resultSet = statement.executeQuery(getLastInsertIdQuery);
+        resultSet.next();
+        int lastInsertedId = resultSet.getInt(1);
+        return lastInsertedId + 1;
+    }
+
+
+
+
 
 
 }

@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Database;
 import Model.plants.Plant;
 import View.ChoosePlantPage;
 import View.DayMap;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -58,8 +60,10 @@ public class ChoosePlantController implements Initializable {
     @FXML
     private ImageView availabelImage;
 
-    ArrayList<Plant> availablePlantList = new ArrayList<>();
-    ArrayList<Plant> choosenPlantList = new ArrayList<>();
+  private   ArrayList<Plant> availablePlantList = new ArrayList<>();
+  private   ArrayList<Plant> choosenPlantList = new ArrayList<>();
+  private   ArrayList<Plant> allPlants  = new ArrayList<>();
+
     @FXML
     void submitAction(MouseEvent event) {
         for (Node plantNode: choosenPlantsHbox.getChildren()) {
@@ -98,18 +102,31 @@ public class ChoosePlantController implements Initializable {
         chosenImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
         AnchorPane.setLeftAnchor(choosenPlantsHbox, 250.0);
         AnchorPane.setLeftAnchor(submitButten, 700.0);
-        availablePlantList.add(PlantInitialize.sunflower());
-        availablePlantList.add(PlantInitialize.peashooter());
-        availablePlantList.add(PlantInitialize.cherryBomb());
-        availablePlantList.add(PlantInitialize.repeater());
-        availablePlantList.add(PlantInitialize.snowpea());
-        availablePlantList.add(PlantInitialize.wallNut());
-        availablePlantList.add(PlantInitialize.doomShroom());
-        availablePlantList.add(PlantInitialize.puffShroom());
-        availablePlantList.add(PlantInitialize.sunShroom());
-        availablePlantList.add(PlantInitialize.fumeShroom());
-        availablePlantList.add(PlantInitialize.iceShroom());
-        availablePlantList.add(PlantInitialize.scaredyShroom());
+        allPlants.add(PlantInitialize.sunflower());
+        allPlants.add(PlantInitialize.peashooter());
+        allPlants.add(PlantInitialize.cherryBomb());
+        allPlants.add(PlantInitialize.repeater());
+        allPlants.add(PlantInitialize.snowpea());
+        allPlants.add(PlantInitialize.wallNut());
+        allPlants.add(PlantInitialize.doomShroom());
+        allPlants.add(PlantInitialize.puffShroom());
+        allPlants.add(PlantInitialize.sunShroom());
+        allPlants.add(PlantInitialize.fumeShroom());
+        allPlants.add(PlantInitialize.iceShroom());
+        allPlants.add(PlantInitialize.scaredyShroom());
+
+        for (Plant plant: allPlants) {
+            try {
+                for (String plantName : Database.getInstance().getPlantList(LoginController.getCurrentPlayer().getId())) {
+                    System.out.println(plantName);
+                    if (plantName.equals(plant.getName())) {
+                        availablePlantList.add(plant);
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
         for (Plant plant : availablePlantList) {
             ImageView plantImageView = new ImageView();
             plantImageView.setImage(new Image(getClass().getResource(plant.getGifUrl()).toExternalForm()));

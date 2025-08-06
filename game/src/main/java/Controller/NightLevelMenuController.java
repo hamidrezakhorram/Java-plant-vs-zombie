@@ -1,11 +1,13 @@
 package Controller;
 
+import Model.Database;
 import View.ChoosePlantPage;
 import View.DayLevelMenuPage;
 import View.Levels.Level4Page;
 import View.NightLevelMenuPage;
 import View.StartPage;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -34,30 +36,44 @@ public class NightLevelMenuController {
     }
 
     @FXML
-    void openLevel4(MouseEvent event) {
+    void openLevel4(MouseEvent event) throws SQLException {
           ChoosePlantController.setLevelNumber(4);
           choosePlantPage();
 
     }
 
     @FXML
-    void openLevel5(MouseEvent event) {
+    void openLevel5(MouseEvent event) throws SQLException {
         ChoosePlantController.setLevelNumber(5);
         choosePlantPage();
     }
 
     @FXML
-    void openLevel6(MouseEvent event) {
+    void openLevel6(MouseEvent event) throws SQLException {
         ChoosePlantController.setLevelNumber(6);
         choosePlantPage();
     }
 
-    private void choosePlantPage() {
-        ChoosePlantPage choosePlantPage = new ChoosePlantPage();
-        try {
-            choosePlantPage.start(currentStage);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private void choosePlantPage() throws SQLException {
+
+        boolean isUnlocked = false;
+        for (Integer levelNumber : Database.getInstance().getLevelList(LoginController.getCurrentPlayer().getId())){
+            if (levelNumber == ChoosePlantController.getLevelNumber()-1){
+                isUnlocked = true;
+            }
+        }
+        if (isUnlocked){
+            ChoosePlantPage choosePlantPage = new ChoosePlantPage();
+            try {
+                choosePlantPage.start(currentStage);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("You have not Unlock this level!");
+            alert.showAndWait();
         }
     }
     @FXML
