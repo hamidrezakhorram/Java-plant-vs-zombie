@@ -9,6 +9,7 @@ import View.LosePage;
 import View.WinPage;
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.BoundingBox;
@@ -20,10 +21,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -104,7 +102,8 @@ public class DayMapController implements Initializable {
     private static Plant currentPlant;
     @FXML
     private ImageView plant1;
-
+    @FXML
+    private VBox zombierowVbox;
     @FXML
     private ImageView sunflower;
     @FXML
@@ -558,6 +557,13 @@ public class DayMapController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+//        zombieProgressBar.valueProperty().addListener((obs, oldVal, newVal) -> {
+//            double percent = newVal.doubleValue() / zombieProgressBar.getMax() * 100;
+//            zombieProgressBar.lookup(".track").setStyle(
+//                    "-fx-background-color: linear-gradient(to right, green 0%, green " + percent + "%, gray " + percent + "%, gray 100%);"
+//            );
+//        });
+        zombieProgressBar.setMouseTransparent(true);
 
         for (Plant plant : plantList) {
             ImageView plantImageView = new ImageView();
@@ -612,6 +618,7 @@ public class DayMapController implements Initializable {
                             }
                         }
                         zombieProgressBar.setValue(zombieProgressBar.getValue() + (100 / DayMapController.zombieWaveNumber));
+
                     }
             );
             zombieWaveTimeline.getKeyFrames().add(keyFrame);
@@ -667,10 +674,12 @@ public class DayMapController implements Initializable {
                 int randomPlacer = random.nextInt(5);
                 int speedRandom = random.nextInt(10);
                 ImageView zombieImageView = new ImageView();
-                zombieImageView.setFitWidth(100);
-                zombieImageView.setFitHeight(100);
+                zombieImageView.setFitWidth(80);
+                zombieImageView.setFitHeight(80);
                 zombieImageView.setLayoutX(600);
                 zombieImageView.setLayoutY(0);
+//                AnchorPane.setTopAnchor(zombieImageView, 10.0);
+//                AnchorPane.setLeftAnchor(zombieImageView, 10.0);
                 zombieImageView.setPreserveRatio(true);
                 zombieImageView.setSmooth(true);
                 zombieImageView.setCache(true);

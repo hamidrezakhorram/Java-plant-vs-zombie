@@ -24,7 +24,7 @@ public class Level4Page extends Application {
 
         DayMapController.setZombieList(zombieList);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/nightmap_2.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 650, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 610, 500);
         stage.setTitle("Level 4");
         DayMapController.setCurrentStage(stage);
         stage.setScene(scene);
