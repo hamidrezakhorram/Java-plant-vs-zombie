@@ -4,12 +4,14 @@ import View.ChoosePlantPage;
 import View.DayLevelMenuPage;
 import View.Levels.Level4Page;
 import View.NightLevelMenuPage;
+import View.StartPage;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class NightLevelMenuController {
     private static Stage currentStage;
@@ -58,5 +60,15 @@ public class NightLevelMenuController {
             throw new RuntimeException(e);
         }
     }
+    @FXML
+    void backAction(MouseEvent event) {
+        StartPage startPage = new StartPage();
+        try {
+            startPage.start(currentStage);
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

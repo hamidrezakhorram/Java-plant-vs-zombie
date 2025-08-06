@@ -90,4 +90,13 @@ public class DayLevelMenuController implements Initializable {
 //        backgroundImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
 //        backgroundImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
     }
+    @FXML
+    void backAction(MouseEvent event) {
+        StartPage startPage = new StartPage();
+        try {
+            startPage.start(currentStage);
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
