@@ -9,12 +9,12 @@
 
 <AnchorPane fx:id="mainAncherPain" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5BBDCF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StartController">
    <children>
-      <ImageView fx:id="backgroundImage" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" smooth="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="backgroundImage" fitHeight="529.0" fitWidth="629.0" pickOnBounds="true" smooth="false">
          <image>
             <Image url="@../assesst/startbackground_2.jpg" />
          </image>
       </ImageView>
-      <VBox fx:id="buttonVbox" layoutX="236.0" layoutY="227.0" prefHeight="158.0" prefWidth="127.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="237.0" AnchorPane.topAnchor="227.0">
+      <VBox fx:id="buttonVbox" layoutX="251.0" layoutY="302.0" prefHeight="158.0" prefWidth="127.0" spacing="15.0">
          <children>
             <Label alignment="CENTER" onMouseClicked="#openLoginPage" prefHeight="53.0" prefWidth="138.0" text="Login" textFill="#f5f007">
                <font>

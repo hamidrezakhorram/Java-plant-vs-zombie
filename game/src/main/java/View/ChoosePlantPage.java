@@ -13,12 +13,10 @@ public class ChoosePlantPage extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/chooseplant.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 650, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 610, 500);
         stage.setTitle("Choose Plant");
         ChoosePlantController.setCurrentStage(stage);
         stage.setScene(scene);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
         stage.show();
     }
 }

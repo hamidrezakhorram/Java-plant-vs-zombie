@@ -1,5 +1,7 @@
 package Model.zmobies;
 
+import javafx.scene.image.ImageView;
+
 public class Zombie implements Cloneable {
     private String name;
     private int health;
@@ -49,6 +51,7 @@ public class Zombie implements Cloneable {
 
     @Override
     public Zombie clone() throws CloneNotSupportedException {
-        return (Zombie) super.clone();
+        Zombie cloned = (Zombie) super.clone();
+        return cloned;
     }
 }

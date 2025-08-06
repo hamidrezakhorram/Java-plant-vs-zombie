@@ -104,11 +104,7 @@ public class ChoosePlantController implements Initializable {
         nightPlantList.add("scaredyShroom");
         nightPlantList.add("fumeShroom");
         nightPlantList.add("puffShroom");
-        availabelImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
-        availabelImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
-        chosenImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
-        AnchorPane.setLeftAnchor(choosenPlantsHbox, 250.0);
-        AnchorPane.setLeftAnchor(submitButten, 700.0);
+
         allPlants.add(PlantInitialize.sunflower());
         allPlants.add(PlantInitialize.peashooter());
         allPlants.add(PlantInitialize.cherryBomb());

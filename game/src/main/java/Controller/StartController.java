@@ -73,11 +73,7 @@ public class StartController implements Initializable {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
         StartController.musicPlayer = mediaPlayer;
-        backgroundImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
-        backgroundImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
-        AnchorPane.setTopAnchor(buttonVbox, 500.0);
-        AnchorPane.setLeftAnchor(buttonVbox, 700.0);
-        AnchorPane.setRightAnchor(buttonVbox, 700.0);
+
 
     }
 }

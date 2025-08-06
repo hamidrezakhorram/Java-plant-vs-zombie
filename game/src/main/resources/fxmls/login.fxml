@@ -11,22 +11,22 @@
 
 <AnchorPane fx:id="mainAncherPain" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #007fff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
-      <ImageView fx:id="backgroundImage" fitHeight="414.0" fitWidth="600.0" layoutY="-0.8" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="backgroundImage" fitHeight="519.0" fitWidth="625.0" layoutY="-1.0" pickOnBounds="true">
          <image>
             <Image url="@../assesst/startbackground_2.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="203.0" layoutY="295.0" mnemonicParsing="false" onMouseClicked="#LoginAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #FF7903;" text="Login" textFill="WHITE" AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="500.0">
+      <Button layoutX="211.0" layoutY="330.0" mnemonicParsing="false" onMouseClicked="#LoginAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #FF7903;" text="Login" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Button>
-      <Button layoutX="323.2" layoutY="295.0" mnemonicParsing="false" onMouseClicked="#backAction" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: #FF7903;" text="Back" textFill="WHITE" AnchorPane.leftAnchor="770.0" AnchorPane.topAnchor="500.0">
+      <Button layoutX="332.0" layoutY="330.0" mnemonicParsing="false" onMouseClicked="#backAction" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: #FF7903;" text="Back" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Button>
-      <TextField fx:id="usernamwField" layoutX="203.0" layoutY="187.0" prefHeight="26.0" prefWidth="194.0" promptText="Username" AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="400.0" />
-      <PasswordField fx:id="passwordField" layoutX="203.0" layoutY="240.0" prefHeight="26.0" prefWidth="194.0" promptText="Password" AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="450.0" />
-      <Label fx:id="erroLable" layoutX="188.0" layoutY="309.0" prefHeight="26.0" prefWidth="271.0" text="Username or Password is incorrect" textFill="#bc3434" visible="false" AnchorPane.leftAnchor="625.0" AnchorPane.topAnchor="600.0">
+      <TextField fx:id="usernamwField" layoutX="211.0" layoutY="222.0" prefHeight="26.0" prefWidth="194.0" promptText="Username" />
+      <PasswordField fx:id="passwordField" layoutX="211.0" layoutY="275.0" prefHeight="26.0" prefWidth="194.0" promptText="Password" />
+      <Label fx:id="erroLable" layoutX="159.0" layoutY="353.0" prefHeight="41.0" prefWidth="300.0" text="Username or Password is incorrect" textFill="#bc3434" visible="false">
          <font>
             <Font name="System Bold Italic" size="16.0" />
          </font>

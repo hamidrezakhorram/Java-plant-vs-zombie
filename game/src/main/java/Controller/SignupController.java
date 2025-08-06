@@ -61,10 +61,13 @@ public class SignupController implements Initializable {
         Database.getInstance().addNewPlant(Database.getInstance().setId() -1 ,"sunflower");
         Database.getInstance().addNewLevel(Database.getInstance().setId() -1 ,0);
         LoginController.setCurrentPlayer(newPlayer);
-        openLevelMenu();
+        openStartPage();
     }
     @FXML
-    void backAction(MouseEvent event) {
+    void backAction(MouseEvent event) throws SQLException {
+       openStartPage();
+    }
+    private  void openStartPage() throws SQLException {
         StartPage startPage = new StartPage();
         try {
             startPage.start(currentStage);
@@ -72,18 +75,8 @@ public class SignupController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-    private  void openLevelMenu(){
-        DayLevelMenuPage dayLevelMenuPage = new DayLevelMenuPage();
-        try {
-            dayLevelMenuPage.start(currentStage);
-        } catch (IOException  e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        backgroundImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
-        backgroundImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
     }
 }

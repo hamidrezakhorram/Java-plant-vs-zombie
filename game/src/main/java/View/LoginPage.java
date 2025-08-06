@@ -12,11 +12,9 @@ import java.io.IOException;
 public class LoginPage extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 650, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 610, 500);
         stage.setTitle("Login");
         stage.setScene(scene);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
         LoginController.setCurrentStage(stage);
         stage.show();
     }

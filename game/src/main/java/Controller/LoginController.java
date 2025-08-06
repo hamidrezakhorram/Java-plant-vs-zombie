@@ -83,8 +83,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        backgroundImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
-        backgroundImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
+
     }
 }
 
