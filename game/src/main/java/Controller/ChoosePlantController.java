@@ -97,6 +97,13 @@ public class ChoosePlantController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ArrayList<String> nightPlantList = new ArrayList<>();
+        nightPlantList.add("doomshroom");
+        nightPlantList.add("iceshroom");
+        nightPlantList.add("sunShroom");
+        nightPlantList.add("scaredyShroom");
+        nightPlantList.add("fumeShroom");
+        nightPlantList.add("puffShroom");
         availabelImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
         availabelImage.fitHeightProperty().bind(mainAncherPain.heightProperty());
         chosenImage.fitWidthProperty().bind(mainAncherPain.widthProperty());
@@ -114,11 +121,14 @@ public class ChoosePlantController implements Initializable {
         allPlants.add(PlantInitialize.fumeShroom());
         allPlants.add(PlantInitialize.iceShroom());
         allPlants.add(PlantInitialize.scaredyShroom());
-
+        if (ChoosePlantController.levelNumber == 1 || ChoosePlantController.levelNumber == 2 || ChoosePlantController.levelNumber == 3) {
+            for (String nightPlantName : nightPlantList) {
+                allPlants.removeIf(plant -> nightPlantName.equals(plant.getName()));
+            }
+        }
         for (Plant plant: allPlants) {
             try {
                 for (String plantName : Database.getInstance().getPlantList(LoginController.getCurrentPlayer().getId())) {
-                    System.out.println(plantName);
                     if (plantName.equals(plant.getName())) {
                         availablePlantList.add(plant);
                     }

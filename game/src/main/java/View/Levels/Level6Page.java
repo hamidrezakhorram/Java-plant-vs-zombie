@@ -20,10 +20,12 @@ public class Level6Page extends Application {
         ArrayList<Zombie> zombieList = new ArrayList<>();
         zombieList.add(InitializeZombies.simpleZombie());
         zombieList.add(InitializeZombies.newspaperZombie());
+        zombieList.add(InitializeZombies.coneheadZombie());
+        zombieList.add(InitializeZombies.flagZombie());
         zombieList.add(InitializeZombies.screenDoorZombie());
         DayMapController.setZombieList(zombieList);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/nightmap_2.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 650, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 610, 500);
         stage.setTitle("Level 6");
         DayMapController.setCurrentStage(stage);
         stage.setScene(scene);
