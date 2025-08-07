@@ -48,11 +48,7 @@ public class ScoreController implements Initializable {
             row.getChildren().add(new Label(player.getScore() + ""));
             row.getChildren().add(new Label(player.getWin() + ""));
             row.getChildren().add(new Label(player.getLoss() + ""));
-            try {
-                row.getChildren().add(new Label(DatabaseController.getPlantList(LoginController.getCurrentPlayer().getId()).size() + ""));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+
             row.setSpacing(50.0);
             for (Node node : row.getChildren()) {
                 Label label = (Label) node;

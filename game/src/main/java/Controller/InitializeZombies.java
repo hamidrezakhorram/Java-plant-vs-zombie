@@ -34,7 +34,7 @@ public class InitializeZombies {
         zombie.setHealth(50);
         zombie.setMovementSpeed(5);
         zombie.setDestructionPower(5);
-        zombie.setAttackResistance(100);
+        zombie.setAttackResistance(30);
         return zombie;
     }
 

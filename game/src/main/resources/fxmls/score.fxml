@@ -17,7 +17,7 @@
       </ImageView>
       <VBox fx:id="scoreTableVbox" layoutX="106.0" layoutY="68.0" prefHeight="290.0" prefWidth="458.0">
          <children>
-            <Label prefHeight="38.0" prefWidth="438.0" text="ID     UserName     Score   Wins     Losts   Plants" textFill="#ff7903">
+            <Label prefHeight="38.0" prefWidth="438.0" text="ID     UserName     Score   Wins     Losts   " textFill="#ff7903">
                <font>
                   <Font name="System Bold Italic" size="19.0" />
                </font>

@@ -15,13 +15,12 @@ public class Level6Page extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        DayMapController.setZombieTotalNumber(4);
-        DayMapController.setZombieWaveNumber(7);
+        DayMapController.setZombieTotalNumber(3);
+        DayMapController.setZombieWaveNumber(4);
         ArrayList<Zombie> zombieList = new ArrayList<>();
         zombieList.add(InitializeZombies.simpleZombie());
-        zombieList.add(InitializeZombies.newspaperZombie());
         zombieList.add(InitializeZombies.coneheadZombie());
-        zombieList.add(InitializeZombies.flagZombie());
+        zombieList.add(InitializeZombies.newspaperZombie());
         zombieList.add(InitializeZombies.screenDoorZombie());
         DayMapController.setZombieList(zombieList);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/nightmap_2.fxml"));
@@ -30,5 +29,6 @@ public class Level6Page extends Application {
         DayMapController.setCurrentStage(stage);
         stage.setScene(scene);
         stage.show();
+
     }
 }
