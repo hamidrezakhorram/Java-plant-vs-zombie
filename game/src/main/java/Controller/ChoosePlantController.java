@@ -124,7 +124,7 @@ public class ChoosePlantController implements Initializable {
         }
         for (Plant plant: allPlants) {
             try {
-                for (String plantName : Database.getInstance().getPlantList(LoginController.getCurrentPlayer().getId())) {
+                for (String plantName : DatabaseController.getPlantList(LoginController.getCurrentPlayer().getId())) {
                     if (plantName.equals(plant.getName())) {
                         availablePlantList.add(plant);
                     }

@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
 
     @FXML
     void LoginAction(MouseEvent event) throws SQLException {
-        ArrayList<Player> playerList =Database.getInstance().getPlayerList();
+        ArrayList<Player> playerList =DatabaseController.getPlayerList();
         for (Player player : playerList) {
             if (player.getUsername().equals(usernamwField.getText()) && player.getPassword().equals(passwordField.getText())) {
                 currentPlayer = player;

@@ -15,12 +15,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -204,7 +207,7 @@ public class DayMapController implements Initializable {
                             Random rand = new Random();
                             int randNum = rand.nextInt(1000, 2000);
                             try {
-                                Thread.sleep(2000 + randNum);
+                                Thread.sleep(4000 + randNum);
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
@@ -269,8 +272,12 @@ public class DayMapController implements Initializable {
                         throw new RuntimeException(e);
                     }
 
+
                     while (true) {
+
+
                         if (rowIndex == 0 && !zombieRow1.getChildren().isEmpty()) {
+
                             try {
                                 rowAction(0, zombieRow1, cell, row1ZombieList, plant);
                             } catch (CloneNotSupportedException e) {
@@ -320,17 +327,11 @@ public class DayMapController implements Initializable {
 
 
     private void showLimitAlert() {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Warning");
-        dialog.setHeaderText("You already have a plant in this area");
-        dialog.showAndWait();
+        DayMapController.showDialog("Warning" ,"You already have a plant in this area");
     }
 
     private void showNotEnoughSunAlert() {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Warning");
-        dialog.setHeaderText("You have not enough sun for this plant");
-        dialog.showAndWait();
+        DayMapController.showDialog("Warning" ,"You have not enough sun for this plant");
     }
 
 
@@ -542,7 +543,7 @@ public class DayMapController implements Initializable {
                         double distance = Math.hypot(zombieCenterX - plantCenterX, zombieCenterY - plantCenterY);
 
 
-                        double radius = 300;
+                        double radius = 200;
                         if (distance <= radius) {
                             removeZombieList.add(zombieImageView);
                         }
@@ -638,54 +639,98 @@ public class DayMapController implements Initializable {
         }
         zombieWaveTimeline.play();
 
+//        new Thread(() -> {
+//            AtomicBoolean run = new AtomicBoolean(true);
+//            while (run.get()) {
+//                try {
+//                    Thread.sleep(300);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                Platform.runLater(() -> {
+//                    if (zombieProgressBar.getValue() >= 98 && zombieRow1.getChildren().isEmpty()
+//                            && zombieRow2.getChildren().isEmpty() && zombieRow3.getChildren().isEmpty()
+//                            && zombieRow4.getChildren().isEmpty() && zombieRow5.getChildren().isEmpty()) {
+//                        stopAction();
+//
+//                    }
+//
+//                });
+//                if (zombieProgressBar.getValue() >= 98 && zombieRow1.getChildren().isEmpty()
+//                        && zombieRow2.getChildren().isEmpty() && zombieRow3.getChildren().isEmpty()
+//                        && zombieRow4.getChildren().isEmpty() && zombieRow5.getChildren().isEmpty()) {
+//
+//                    try {
+//
+//                        winAction();
+//                        WinPage winPage = new WinPage();
+//                        try {
+//                            winPage.start(currentStage);
+//                        } catch (IOException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    } catch (SQLException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//
+//
+//                }
+//                run.set(false);
+//
+//
+//
+//            }
+//        }).start();
         new Thread(() -> {
             AtomicBoolean run = new AtomicBoolean(true);
             while (run.get()) {
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                Platform.runLater(() -> {
-                    if (zombieProgressBar.getValue() >= 98 && zombieRow1.getChildren().isEmpty()
-                            && zombieRow2.getChildren().isEmpty() && zombieRow3.getChildren().isEmpty()
-                            && zombieRow4.getChildren().isEmpty() && zombieRow5.getChildren().isEmpty()) {
-                        stopAction();
+                boolean winCondition = zombieProgressBar.getValue() >= 98 &&
+                        zombieRow1.getChildren().isEmpty() &&
+                        zombieRow2.getChildren().isEmpty() &&
+                        zombieRow3.getChildren().isEmpty() &&
+                        zombieRow4.getChildren().isEmpty() &&
+                        zombieRow5.getChildren().isEmpty();
 
-                    }
 
-                });
-                if (zombieProgressBar.getValue() >= 98 && zombieRow1.getChildren().isEmpty()
-                        && zombieRow2.getChildren().isEmpty() && zombieRow3.getChildren().isEmpty()
-                        && zombieRow4.getChildren().isEmpty() && zombieRow5.getChildren().isEmpty()) {
+                if (winCondition) {
+                    stopAction();
 
                     try {
-
                         winAction();
-                        WinPage winPage = new WinPage();
-                        try {
-                            winPage.start(currentStage);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
+                        return;
                     }
 
-
+                    Platform.runLater(() -> {
+                        try {
+                            WinPage winPage = new WinPage();
+                            winPage.start(currentStage);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    run.set(false);
                 }
-                run.set(false);
-
-
 
             }
+
+
+
+
+
         }).start();
 
     }
 
     private void openLosePage() throws SQLException {
         stopAction();
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId(), "lost", LoginController.getCurrentPlayer().getLoss() + 1);
+        DatabaseController.updateInfo(LoginController.getCurrentPlayer().getId(), "lost", LoginController.getCurrentPlayer().getLoss() + 1);
         LosePage losePage = new LosePage();
         try {
             losePage.start(currentStage);
@@ -701,7 +746,13 @@ public class DayMapController implements Initializable {
 
 
             new Thread(() -> {
-
+                if (waveNumber == 0) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 Zombie zombie = null;
                 try {
                     zombie = zombieList.get(randomZombie).clone();
@@ -740,6 +791,7 @@ public class DayMapController implements Initializable {
                 Zombie finalZombie = zombie;
                 Platform.runLater(() -> {
                     zombieRowList.get(randomPlacer).getChildren().add(zombieImageView);
+
                     zombieImageView.setImage(new Image(getClass().getResource(finalZombie.getGifUrl()).toExternalForm()));
                     Timeline timeline = new Timeline(
 
@@ -874,9 +926,9 @@ public class DayMapController implements Initializable {
     }
 
     private void winAction() throws SQLException {
-        System.out.println("win");
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId(), "score", LoginController.getCurrentPlayer().getScore() + 10);
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId(), "win", LoginController.getCurrentPlayer().getWin() + 1);
+
+        DatabaseController.updateInfo(LoginController.getCurrentPlayer().getId(), "score", LoginController.getCurrentPlayer().getScore() + 10);
+        DatabaseController.updateInfo(LoginController.getCurrentPlayer().getId(), "win", LoginController.getCurrentPlayer().getWin() + 1);
         if (ChoosePlantController.getLevelNumber() == 1) {
             unlockPlants("wallNut", "snowpea");
         } else if (ChoosePlantController.getLevelNumber() == 2) {
@@ -888,13 +940,15 @@ public class DayMapController implements Initializable {
         } else if (ChoosePlantController.getLevelNumber() == 5) {
             unlockPlants("doomshroom", "scaredyShroom");
         }
-        for (Integer levelNumber : Database.getInstance().getLevelList(LoginController.getCurrentPlayer().getId())) {
+        ArrayList<Integer> levenumberList=DatabaseController.getLevelList(LoginController.getCurrentPlayer().getId());
+        for (Integer levelNumber : levenumberList ) {
             boolean isNew = true;
             if (levelNumber == ChoosePlantController.getLevelNumber()) {
                 isNew = false;
+                break;
             }
             if (isNew) {
-                Database.getInstance().addNewLevel(LoginController.getCurrentPlayer().getId(), ChoosePlantController.getLevelNumber());
+                DatabaseController.addNewLevel(LoginController.getCurrentPlayer().getId(), ChoosePlantController.getLevelNumber());
             }
         }
 
@@ -910,25 +964,50 @@ public class DayMapController implements Initializable {
     private void unlockPlants(String plantName1, String plantName2) throws SQLException {
 
         boolean isNew = true;
-        for (String plantName : Database.getInstance().getPlantList(LoginController.getCurrentPlayer().getId())) {
+        for (String plantName : DatabaseController.getPlantList(LoginController.getCurrentPlayer().getId())) {
             if (plantName.equals(plantName1) || plantName.equals(plantName2)) {
                 isNew = false;
             }
         }
         if (isNew) {
-            Database.getInstance().addNewPlant(LoginController.getCurrentPlayer().getId(), plantName1);
-            Database.getInstance().addNewPlant(LoginController.getCurrentPlayer().getId(), plantName2);
+            DatabaseController.addNewPlant(LoginController.getCurrentPlayer().getId(), plantName1);
+            DatabaseController.addNewPlant(LoginController.getCurrentPlayer().getId(), plantName2);
         }
     }
 
     @FXML
     void openMenuPage(MouseEvent event) {
+        Platform.runLater(() -> {
+            stopAction();
+        });
+
         DayLevelMenuPage dayLevelMenuPage = new DayLevelMenuPage();
         try {
             dayLevelMenuPage.start(currentStage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void showDialog(String title, String message) {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle(title);
+        dialog.setResizable(false);
+
+        Label label = new Label(message);
+        label.setStyle("-fx-font-size: 15; font-weight: bold;");
+        Button closeButton = new Button("OK");
+        closeButton.setOnAction(e -> dialog.close());
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-padding: 20; -fx-background-color: white;");
+
+        Scene scene = new Scene(layout, 300, 150);
+        dialog.setScene(scene);
+        dialog.showAndWait();
     }
 
 }

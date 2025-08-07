@@ -42,20 +42,20 @@ public class SettingController implements Initializable {
 
     @FXML
     void changeName(MouseEvent event) throws SQLException {
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId() ,"name" ,newName.getText());
+        DatabaseController.updateInfo(LoginController.getCurrentPlayer().getId() ,"name" ,newName.getText());
         newUsername.clear();
     }
 
     @FXML
     void changePassword(MouseEvent event) throws SQLException {
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId() ,"password" ,newPassword.getText());
+        DatabaseController.updateInfo(LoginController.getCurrentPlayer().getId() ,"password" ,newPassword.getText());
         newPassword.clear();
 
     }
 
     @FXML
     void changeUsername(MouseEvent event) throws SQLException {
-        Database.getInstance().updateInfo(LoginController.getCurrentPlayer().getId() ,"username" ,newUsername.getText());
+        DatabaseController.updateInfo(LoginController.getCurrentPlayer().getId() ,"username" ,newUsername.getText());
         newUsername.clear();
 
     }

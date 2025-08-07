@@ -14,7 +14,7 @@ public class StartPage extends Application {
 
 
     public void start(Stage stage) throws IOException, SQLException {
-      Database database = Database.getInstance();
+        Database database = Database.getInstance();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/start.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 610, 500);
         stage.setTitle("Plant vs Zombies");

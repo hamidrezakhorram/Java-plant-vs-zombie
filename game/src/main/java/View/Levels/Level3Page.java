@@ -15,8 +15,8 @@ public class Level3Page extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        DayMapController.setZombieTotalNumber(5);
-        DayMapController.setZombieWaveNumber(3);
+        DayMapController.setZombieTotalNumber(3);
+        DayMapController.setZombieWaveNumber(5);
         ArrayList<Zombie> zombieList = new ArrayList<>();
         zombieList.add(InitializeZombies.simpleZombie());
         zombieList.add(InitializeZombies.coneheadZombie());

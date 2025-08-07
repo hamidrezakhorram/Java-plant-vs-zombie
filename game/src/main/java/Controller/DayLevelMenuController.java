@@ -61,7 +61,7 @@ public class DayLevelMenuController implements Initializable {
     }
     private void choosePlantPage() throws SQLException {
         boolean isUnlocked = false;
-        for (Integer levelNumber : Database.getInstance().getLevelList(LoginController.getCurrentPlayer().getId())){
+        for (Integer levelNumber : DatabaseController.getLevelList(LoginController.getCurrentPlayer().getId())){
             if (levelNumber == ChoosePlantController.getLevelNumber()-1){
                 isUnlocked = true;
             }
@@ -74,10 +74,7 @@ public class DayLevelMenuController implements Initializable {
                 throw new RuntimeException(e);
             }
         }else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You have not Unlock this level!");
-            alert.showAndWait();
+            DayMapController.showDialog("Warning" ,"You have not Unlock this level!");
         }
 
     }

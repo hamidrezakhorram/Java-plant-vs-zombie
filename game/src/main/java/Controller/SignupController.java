@@ -56,10 +56,10 @@ public class SignupController implements Initializable {
         newPlayer.setName(nameField.getText());
         newPlayer.setPassword(passwordField.getText());
         newPlayer.setUsername(usernamwField.getText());
-        Database.getInstance().addNewPlayer(newPlayer);
-        Database.getInstance().addNewPlant(Database.getInstance().setId() -1 ,"peashooter");
-        Database.getInstance().addNewPlant(Database.getInstance().setId() -1 ,"sunflower");
-        Database.getInstance().addNewLevel(Database.getInstance().setId() -1 ,0);
+        DatabaseController.addNewPlayer(newPlayer);
+        DatabaseController.addNewPlant(DatabaseController.setId() -1 ,"peashooter");
+        DatabaseController.addNewPlant(DatabaseController.setId() -1 ,"sunflower");
+        DatabaseController.addNewLevel(DatabaseController.setId() -1 ,0);
         LoginController.setCurrentPlayer(newPlayer);
         openStartPage();
     }

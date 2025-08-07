@@ -34,7 +34,7 @@ public class ScoreController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<Player> playerList =null;
         try {
-            playerList = Database.getInstance().getPlayerList();
+            playerList = DatabaseController.getPlayerList();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +49,7 @@ public class ScoreController implements Initializable {
             row.getChildren().add(new Label(player.getWin() + ""));
             row.getChildren().add(new Label(player.getLoss() + ""));
             try {
-                row.getChildren().add(new Label(Database.getInstance().getPlantList(LoginController.getCurrentPlayer().getId()).size() + ""));
+                row.getChildren().add(new Label(DatabaseController.getPlantList(LoginController.getCurrentPlayer().getId()).size() + ""));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
