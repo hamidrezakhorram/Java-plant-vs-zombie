@@ -101,7 +101,7 @@ public class DayMapController implements Initializable {
     AtomicBoolean row5Stop = new AtomicBoolean(false);
 
     private Map<Zombie, Timeline> zombieTimelineList = new HashMap<>();
-    private int sunAmount = 100;
+    private int sunAmount = 400;
     @FXML
     private Label sunAmountlabel;
     @FXML
@@ -960,6 +960,7 @@ public class DayMapController implements Initializable {
         for (Timeline timeline : zombieTimelineList.values()) {
             timeline.stop();
         }
+
 
 
 

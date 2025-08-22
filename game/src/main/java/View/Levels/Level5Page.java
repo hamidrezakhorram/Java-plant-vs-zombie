@@ -21,7 +21,7 @@ public class Level5Page extends Application {
         zombieList.add(InitializeZombies.simpleZombie());
         zombieList.add(InitializeZombies.coneheadZombie());
         zombieList.add(InitializeZombies.newspaperZombie());
-        zombieList.add(InitializeZombies.screenDoorZombie());
+
         DayMapController.setZombieList(zombieList);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/nightmap_2.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 610, 500);
